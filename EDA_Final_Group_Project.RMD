@@ -17,6 +17,7 @@ library(rvest)
 library(tidyverse)
 library(ggplot2)
 library (lubridate)
+library (dplyr)
 
 ```
 
@@ -24,6 +25,7 @@ library (lubridate)
 
 ## Input Data
 
+There are 62 counties in New York State.
 
 ```{r, echo = FALSE}
 
@@ -43,9 +45,19 @@ ny_pop_dat
 
 #Taken from https://www.census.gov/library/stories/state-by-state/new-york-population-change-between-census-decade.html
 
+#Merge data set
 
+combined_dat_ny_covid_pop <- ny_pop_dat %>% 
+  left_join(ny_covid_dat, by = "County")
 
+head(combined_dat_ny_covid_pop)
+summary(combined_dat_ny_covid_pop)  #View Data
 
+#Export Processed data
+
+getwd() #Check working directory
+
+write.csv2(combined_dat_ny_covid_pop,"./Processed_Data/Combined_NY_COVID_Pop.csv")
 ```
 
 ## Including Plots
