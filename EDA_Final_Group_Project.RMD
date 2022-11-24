@@ -29,33 +29,19 @@ library (lubridate)
 
 #Import NY Covid data (March 1, 2020 to November 22, 2022)
 
-ny_covid_dat <- read_html('https://health.data.ny.gov/Health/New-York-State-Statewide-COVID-19-Testing/xdss-u53e/explore/query/SELECT%0A%20%20%60county%60%2C%0A%20%20sum%28%60new_positives%60%29%20AS%20%60sum_new_positives%60%2C%0A%20%20sum%28%60cumulative_number_of_positives%60%29%20AS%20%60sum_cumulative_number_of_positives%60%2C%0A%20%20sum%28%60total_number_of_tests%60%29%20AS%20%60sum_total_number_of_tests%60%2C%0A%20%20sum%28%60cumulative_number_of_tests%60%29%20AS%20%60sum_cumulative_number_of_tests%60%2C%0A%20%20median%28%60test_positive%60%29%20AS%20%60median_test_positive%60%0AGROUP%20BY%20%60county%60/page/aggregate')
+ny_covid_dat <- read.csv("./Raw_Data/NY_COVID_County_Level.csv")
 
-ny_covid_dat
+ny_covid_dat #View Data
 
-
-#Scrape the data from the website
-
-#Set the element address variables (determined in the previous step)
-the_county_tag <- '.not-editable:nth-child(1) div'
-the_sum_new_positives_tag <- '.not-editable:nth-child(2) div'
-the_sum_cumulative_no_of_positives_tag <- '.not-editable:nth-child(3) div'
-the_sum_total_number_tests_tag <- '.not-editable:nth-child(4) div'
-the_sum_cumulative_number_tests_tag <- '.not-editable:nth-child(5) div'
-the_median_test_positive_tag <- '.not-editable:nth-child(6) div'
-
-#Scrape the data items
-the_county <- ny_covid_dat%>% html_nodes(the_county_tag) %>% html_text()
-the_sum_cumulative_no_of_positives <- ny_covid_dat %>%   html_nodes(the_sum_cumulative_no_of_positives_tag) %>%  html_text()
-the_sum_total_number_tests <- ny_covid_dat %>% html_nodes(the_sum_total_number_tests_tag) %>% html_text()
-the_sum_cumulative_number_tests <- ny_covid_dat %>% html_nodes(the_sum_cumulative_number_tests_tag) %>% html_text()
-the_median_test_positive_tag <- ny_covid_dat %>% html_nodes(the_median_test_positive_tag) %>% html_text()
-
-## Remove state wide column
+#Taken from NY Health
 
 #Import NY population data (2022)
 
 ny_pop_dat <- read.csv("./Raw_Data/NY_County_Level_Population_Data.csv")
+
+ny_pop_dat
+
+#Taken from https://www.census.gov/library/stories/state-by-state/new-york-population-change-between-census-decade.html
 
 
 
