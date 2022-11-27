@@ -82,7 +82,7 @@ combined_dat_ny_covid_pop <- ny_pop_dat %>%
 ### Explore Data
 
 head(combined_dat_ny_covid_pop)
-summary(combined_dat_ny_covid_pop)  #View Data
+summary(combined_dat_ny_covid_pop)#View Data
 
 #Change data types
 colnames(combined_dat_ny_covid_pop)
