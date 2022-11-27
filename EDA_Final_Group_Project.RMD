@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Set-up Data Set
 
-```{r}
+```{r, message=FALSE}
 
 library(rvest)
 library(tidyverse)
@@ -19,53 +19,73 @@ library(ggplot2)
 library (lubridate)
 library (dplyr)
 
+
+#Set theme
+
+my_theme <- theme_bw(base_size = 12) + 
+  theme(axis.text = element_text(color = "black"), 
+      legend.position = "top", legend.justification = "center") +
+  theme(plot.title = element_text(hjust = 0.5))
+theme_set(my_theme)
+
 ```
 
 
+## Import and Merge Data Sets
 
-## Input Data
+Important things to note:
 
-There are 62 counties in New York State.
+-There are 62 counties in New York State.
 
 ```{r, echo = FALSE}
 
-#Import NY Covid data (March 1, 2020 to November 22, 2022)
+#Import NY State county level COVID data (March 1, 2020 to November 22, 2022) from NY Health.
 
-ny_covid_dat <- read.csv("./Raw_Data/NY_COVID_County_Level.csv")
+ny_covid_dat <- read.csv("./Data/Raw_Data/NY_COVID_County_Level.csv", stringsAsFactors = TRUE)
 
 ny_covid_dat #View Data
 
-#Taken from NY Health
-
 #Import NY population data (2022)
 
-ny_pop_dat <- read.csv("./Raw_Data/NY_County_Level_Population_Data.csv")
+ny_pop_dat <- read.csv("./Data/Raw_Data/NY_County_Level_Population_Data.csv", stringsAsFactors = TRUE)
 
 ny_pop_dat
 
 #Taken from https://www.census.gov/library/stories/state-by-state/new-york-population-change-between-census-decade.html
 
-#Merge data set
+#Merge data sets
 
 combined_dat_ny_covid_pop <- ny_pop_dat %>% 
   left_join(ny_covid_dat, by = "County")
 
+### Explore Data
+
 head(combined_dat_ny_covid_pop)
+summary(combined_dat_ny_covid_pop)  #View Data
+
+#Change data types
+colnames(combined_dat_ny_covid_pop)
+combined_dat_ny_covid_pop$sum_cumulative_no_of_positive <- as.numeric(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive)
+combined_dat_ny_covid_pop$sum_new_positives <- as.numeric(combined_dat_ny_covid_pop$sum_new_positives)
+combined_dat_ny_covid_pop$sum_total_number_of_tests <- as.numeric(combined_dat_ny_covid_pop$sum_total_number_of_tests)
+combined_dat_ny_covid_pop$sum_cumulative_no_of_tests <- as.numeric(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests)
+combined_dat_ny_covid_pop$median_test_positive <- as.numeric(combined_dat_ny_covid_pop$median_test_positive)
+
 summary(combined_dat_ny_covid_pop)  #View Data
 
 #Export Processed data
 
 getwd() #Check working directory
 
-write.csv2(combined_dat_ny_covid_pop,"./Processed_Data/Combined_NY_COVID_Pop.csv")
+write.csv2(combined_dat_ny_covid_pop,"./Data/Processed_Data/Combined_NY_COVID_Pop.csv")
 ```
 
-## Including Plots
+## Explore Data
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, echo=FALSE}
+
+summary(combined_dat_ny_covid_pop)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
