@@ -1,17 +1,38 @@
 ---
-title: "EDA Final Project"
+output: 
+  pdf_document:
+    keep_tex: yes
+    fig_caption: yes
+    number_sections: yes
+geometry: margin=2.54cm
+title: "Tracking COVID-19 Cases Across Different Geographic Neighborhoods in New York State"
+subtitle: "Web address for GitHub repository"
 author: "SMiltonDZouGKhalsa"
 date: "2022-11-22"
-output: pdf_document
+fontsize: 12pt
+mainfont: Times New Roman
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\newpage
+\tableofcontents 
+\newpage
+\listoftables 
+\newpage
+\listoffigures 
+\newpage
+
 ## Set-up Data Set
 
 ```{r, message=FALSE}
+
+#Set working directory
+
+
+#Load packages
 
 library(rvest)
 library(tidyverse)
@@ -33,7 +54,7 @@ theme_set(my_theme)
 
 ## Import and Merge Data Sets
 
-Important things to note:
+Important things to note: (delete later)
 
 -There are 62 counties in New York State.
 
@@ -80,12 +101,41 @@ getwd() #Check working directory
 write.csv2(combined_dat_ny_covid_pop,"./Data/Processed_Data/Combined_NY_COVID_Pop.csv")
 ```
 
-## Explore Data
+# Rationale and Research Questions
 
 
-```{r, echo=FALSE}
 
-summary(combined_dat_ny_covid_pop)
+\newpage
 
-```
+# Dataset Information
 
+
+
+\newpage
+
+# Exploratory Analysis 
+
+
+
+\newpage
+
+# Analysis
+
+
+
+## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+
+## Question 2: 
+
+
+
+
+\newpage
+
+# Summary and Conclusions
+
+
+\newpage
+
+# References
+<add references here if relevant, otherwise delete this section> 
