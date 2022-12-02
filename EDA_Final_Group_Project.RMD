@@ -79,10 +79,12 @@ ny_pop_dat
 combined_dat_ny_covid_pop <- ny_pop_dat %>% 
   left_join(ny_covid_dat, by = "County")
 
+
 ### Explore Data
 
 head(combined_dat_ny_covid_pop)
 summary(combined_dat_ny_covid_pop)#View Data
+dim(combined_dat_ny_covid_pop)
 
 #Change data types
 colnames(combined_dat_ny_covid_pop)
