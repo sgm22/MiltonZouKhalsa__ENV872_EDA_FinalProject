@@ -96,6 +96,13 @@ combined_dat_ny_covid_pop$median_test_positive <- as.numeric(combined_dat_ny_cov
 
 summary(combined_dat_ny_covid_pop)  #View Data
 
+## Add column for to classify counties into settlement types
+
+combined_dat_ny_covid_pop <- combined_dat_ny_covid_pop %>%
+  mutate(settlement_type = case_when(pop2022<=10000 ~ 'Rural',
+                                     10000<pop2022 & pop2022<50000 ~ 'Micropolitan',
+                                     pop2022>= 50000 ~ 'Urban'))
+
 #Export Processed data
 
 getwd() #Check working directory
@@ -105,21 +112,24 @@ write.csv2(combined_dat_ny_covid_pop,"./Data/Processed_Data/Combined_NY_COVID_Po
 
 # Rationale and Research Questions
 
-
-
 \newpage
+
+
 
 # Dataset Information
 
-
-
 \newpage
+
 
 # Exploratory Analysis 
 
-
-
 \newpage
+
+```{r}
+
+
+
+```
 
 # Analysis
 
