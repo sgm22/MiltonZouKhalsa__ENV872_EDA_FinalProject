@@ -213,6 +213,7 @@ text(paste("Correlation:", round(cor(combined_dat_ny_covid_pop$pop2022,combined_
 
 
 ```
+###  Question 3b: What is the association between density and the number of COVID-19 tests conducted?
 
 \newpage
 
