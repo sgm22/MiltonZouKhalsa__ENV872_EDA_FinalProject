@@ -39,6 +39,10 @@ library(tidyverse)
 library(ggplot2)
 library (lubridate)
 library (dplyr)
+library(sf)
+library (leaflet)
+library(mapview)
+library(AER)
 
 
 #Set theme
@@ -62,13 +66,13 @@ Important things to note: (delete later)
 
 #Import NY State county level COVID data (March 1, 2020 to November 22, 2022) from NY Health.
 
-ny_covid_dat <- read.csv("./Data/Raw_Data/NY_COVID_County_Level.csv", stringsAsFactors = TRUE)
+ny_covid_dat <- read.csv("./Data/Raw_Data/NY_COVID_County_Level.csv")
 
 ny_covid_dat #View Data
 
 #Import NY population data (2022)
 
-ny_pop_dat <- read.csv("./Data/Raw_Data/NY_County_Level_Population_Data.csv", stringsAsFactors = TRUE)
+ny_pop_dat <- read.csv("./Data/Raw_Data/NY_County_Level_Population_Data.csv",stringsAsFactors = TRUE)
 
 ny_pop_dat
 
@@ -79,22 +83,17 @@ ny_pop_dat
 combined_dat_ny_covid_pop <- ny_pop_dat %>% 
   left_join(ny_covid_dat, by = "County")
 
+```
+
 
 ### Explore Data
+
+```{r}
 
 head(combined_dat_ny_covid_pop)
 summary(combined_dat_ny_covid_pop) #View Data
 dim(combined_dat_ny_covid_pop)
 
-#Change data types
-colnames(combined_dat_ny_covid_pop)
-combined_dat_ny_covid_pop$sum_cumulative_no_of_positive <- as.numeric(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive)
-combined_dat_ny_covid_pop$sum_new_positives <- as.numeric(combined_dat_ny_covid_pop$sum_new_positives)
-combined_dat_ny_covid_pop$sum_total_number_of_tests <- as.numeric(combined_dat_ny_covid_pop$sum_total_number_of_tests)
-combined_dat_ny_covid_pop$sum_cumulative_no_of_tests <- as.numeric(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests)
-combined_dat_ny_covid_pop$median_test_positive <- as.numeric(combined_dat_ny_covid_pop$median_test_positive)
-
-summary(combined_dat_ny_covid_pop)  #View Data
 
 ## Add column for to classify counties into settlement types
 
@@ -114,7 +113,21 @@ write.csv2(combined_dat_ny_covid_pop,"./Data/Processed_Data/Combined_NY_COVID_Po
 
 \newpage
 
+###Rationale
 
+Coronavirus disease (COVID-19) is an infectious disease caused by the severe acute respiratory
+syndrome coronavirus 2 (SARS-CoV-2). The virus is primarily spread from person to person through respiratory droplets and as such, population density plays a role in the transmission of the virus. Since COVID-19 was declared a global pandemic in March 2020 by the World Health
+Organization (WHO) in March 2020, there has been a resurgece in COVID-19 infections across the globe.
+
+
+--> Information to be added on COVID in NY specifically
+
+
+###Research Questions
+
+1. what is the strength of the relationship between different settlement types and cumulative COVID-19 cases?
+2. What is the association between population density and the number of COVID-19 tests conducted?
+3. How well does absolute population and population density predict the cumulative number of positive COVID-19 cases? 
 
 # Dataset Information
 
@@ -129,18 +142,77 @@ write.csv2(combined_dat_ny_covid_pop,"./Data/Processed_Data/Combined_NY_COVID_Po
 
 
 
+
+
+
+
+
+# Read in counties shapefile into an sf dataframe, filtering for just NY counties
+
+uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp') %>%
+  filter(STATEFP == 36)
+
+
+
 ```
 
 # Analysis
 
+## Question 1: what is the relationship between different settlement types and the number of positive cumulative COVID-19 cases?
+
+```{r}
+
+summary (modelpoisson <- glm(sum_cumulative_no_of_positive ~ factor(settlement_type), family = poisson, data = combined_dat_ny_covid_pop))
+
+par (mfrow = c(2,2))
+plot(modelpoisson) #Check fit
+
+modelpoisson$model$fitted <- predict(modelpoisson, type="response")
+modelpoisson$model$fitted
+
+# Plot
+
+#ggplot(modelpoisson$model) +
+#  geom_point(aes(combined_dat_ny_covid_pop$settlement_type,combined_dat_ny_covid_pop$sum_cumulative_no_of_positives)) +
+#  geom_line(aes(combined_dat_ny_covid_pop$settlement_type,fitted))
 
 
-## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+```
 
-## Question 2: 
+## Question 2: How well does absolute population and population density predict the cumulative number of positive COVID-19 cases? 
+
+```{r}
 
 
 
+summary(model1 <- glm(sum_cumulative_no_of_positive ~ pop2022 + density_permilessquared , family = poisson, data = combined_dat_ny_covid_pop))
+
+par (mfrow = c(2,2))
+plot(model1)
+
+
+dispersiontest(model1)
+
+```
+
+
+## Question 3: What is the association between absolute population and the number of COVID-19 tests conducted?
+
+```{r}
+
+ggplot(data = combined_dat_ny_covid_pop, aes(x=pop2022, y= density_permilessquared)) +
+  geom_point() +
+  geom_smooth(method=lm)
+
+
+plot(combined_dat_ny_covid_pop$pop2022,combined_dat_ny_covid_pop$density_permilessquared, pch = 19)
+
+abline(lm(combined_dat_ny_covid_pop$density_permilessquared ~ combined_dat_ny_covid_pop$pop2022), col = "red", lwd = 3)
+
+text(paste("Correlation:", round(cor(combined_dat_ny_covid_pop$pop2022,combined_dat_ny_covid_pop$density_permilessquared), 2)), x = 95, y = 25)
+
+
+```
 
 \newpage
 
