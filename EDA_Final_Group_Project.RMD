@@ -265,9 +265,11 @@ ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(pop2022)
 
 # Read in counties shapefile into an sf dataframe, filtering for just NY counties (GURUBANDAA)
 
-uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp') %>%
-  filter(STATEFP == 36)
-
+uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp', stringsAsFactors = TRUE) %>%
+  filter(
+    STATEFP == 36
+    ) %>%
+  st_as_sf(coords = c('SITE_LONGITUDE','SITE_LATITUDE'), crs=4269)
 
 ```
 
@@ -521,6 +523,29 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_n
   xlab ("Absolute Population (2022)")+
   facet_wrap(vars(settlement_type)) 
  
+```
+
+\newpage
+
+# Map of New York County Population Levels
+```{r}
+# Read in New York counties shapefile into an sf dataframe, filtering for just New York counties.
+ggplot(data = uscounty) +
+  geom_sf()
+
+# Plot the data.
+ggplot(data = counties.sf) +
+  geom_sf()
+
+# The EPSG code of the New York counties dataset is 4269. This is a geographic coordinate reference system, so it uses angular coordinate units. This CRS (4269) is associated with the datum NAD83.
+
+# Reveal the names of the columns
+colnames(combined_dat_ny_covid_pop)
+
+# Convert to an sf object.
+combined_dat_ny_covid_pop.sf <- combined_dat_ny_covid_pop %>%
+  st_as_sf(coords = c('dec_long_va','dec_lat_va'), crs=4269)
+
 ```
 
 \newpage
