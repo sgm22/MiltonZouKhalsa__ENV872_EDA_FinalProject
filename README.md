@@ -38,7 +38,7 @@ We acquired our 2020 to 2022 COVID-19 data from the New York Department of Healt
 
 ## Folder structure, file formats, and naming conventions 
 
-Our main project folder is named "MiltonZouKhalsa__ENV872_EDA_FinalProject."  Within the folder are the  .gitignore file, .Rhistory file, Data folder, project RMD file named "EDA_Final_Group_Project.RMD", LICENSE file, .Rproj project file named the same as the main project folder, and this README.md file.  We organized our data files within multiple data folders, including "processed, raw, and spatial data."Processed_Data", "Raw_Data", and "Spatial_Files."  The processed and raw data folders contain .csv files  The spatial data folder contains a Shapefile.URL file, .cpg file, .dbf file, .prj file, a few .shp files, and a .shx file.  These allow for spatial processing to be conducted.  Our file naming conventions involve descriptive words separated by underscores.
+Our main project folder is named "MiltonZouKhalsa__ENV872_EDA_FinalProject."  Within the folder are the  .gitignore file, .Rhistory file, Data folder, project RMD file named "EDA_Final_Group_Project.RMD", LICENSE file, .Rproj project file named the same as the main project folder, and this README.md file.  We organized our data files within multiple data folders, including "processed, raw, meta-data, and spatial data.These folders are titled, "Processed_Data", "Raw_Data", "Meta_Data" and "Spatial_Files."  The processed,meta-data,raw data folders contain .csv files  The spatial data folder contains a Shapefile.URL file, .cpg file, .dbf file, .prj file, a few .shp files, and a .shx file.  These allow for spatial processing to be conducted.  Our file naming conventions involve descriptive words separated by underscores.
 
 ## Metadata
 
