@@ -114,6 +114,7 @@ library (leaflet)
 library(mapview)
 library(AER)
 library (corrplot)
+library(RColorBrewer)
 
 
 
@@ -182,6 +183,7 @@ collapsed_dat_settlement_types <- combined_dat_ny_covid_pop %>%
             Mean_Settlement_Density = mean (density_permilessquared))
 
 collapsed_dat_settlement_types #View table
+write.csv2(collapsed_dat_settlement_types,"./Data/Processed_Data/collapsed_dat_settlement_types.csv")
 
 ```
 
@@ -264,9 +266,11 @@ ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(pop2022)
 
 # Read in counties shapefile into an sf dataframe, filtering for just NY counties (GURUBANDAA)
 
-uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp') %>%
-  filter(STATEFP == 36)
-
+uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp', stringsAsFactors = TRUE) %>%
+  filter(
+    STATEFP == 36
+    ) %>%
+  st_as_sf(coords = c('SITE_LONGITUDE','SITE_LATITUDE'), crs=4269)
 
 ```
 
@@ -399,7 +403,7 @@ plot(modelpoisson) #Check fit
 ```
 
 
-## Question 3: What is the correlation between absolute population and population density and the number of COVID-19 tests does done?
+## Question 3: What is the correlation between absolute population and population density and the number of COVID-19 tests done?
 
 ### Absolute Population and COVID-19 Cases
 
@@ -468,7 +472,7 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(
 ```
 
 
-###  Question 3b: Does this the relationship with the stronger correlated relationship vary among settlement types?
+###  Question 3b: Does the stronger correlated relationship vary among settlement types?
 
 ### Absolute Population and Settlement Types
 
@@ -520,6 +524,57 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_n
   xlab ("Absolute Population (2022)")+
   facet_wrap(vars(settlement_type)) 
  
+```
+
+\newpage
+
+# Map of New York County Population Levels
+```{r}
+# Read in New York counties shapefile into an sf dataframe, filtering for just New York counties.
+ggplot(data = uscounty) +
+  geom_sf()
+
+# Plot the data.
+ggplot(data = counties.sf) +
+  geom_sf()
+
+# The EPSG code of the New York counties dataset is 4269. This is a geographic coordinate reference system, so it uses angular coordinate units. This CRS (4269) is associated with the datum NAD83.
+
+# Reveal the names of the columns
+colnames(combined_dat_ny_covid_pop)
+
+# Join the flow data to our NWIS gage location spatial dataframe.
+combined_dat_join <- merge(x = uscounty,
+                          y = combined_dat_ny_covid_pop,
+                          by.x = "NAME",
+                          by.y = "County")
+
+# Show the column names of the joined dataset.
+colnames(combined_dat_join)
+
+# Show the dimensions of this joined dataset.
+dim(combined_dat_join)
+
+# Map the population of each New York county in 2022.
+mapview(combined_dat_join, 
+        zcol = 'pop2022', 
+        col.regions = brewer.pal(2, 'RdBu'))
+
+# Map the settlement types of each New York county in 2022.
+mapview(combined_dat_join, 
+        zcol = 'settlement_type', 
+        col.regions = brewer.pal(2, 'RdBu'))
+
+# Map the sum of the cumulative number of tests administered in each New York county in 2022.
+mapview(combined_dat_join, 
+        zcol = 'sum_cumulative_no_of_tests', 
+        col.regions = brewer.pal(2, 'RdBu'))
+
+# Map the sum of the cumulative number of positive test results in each New York county in 2022.
+mapview(combined_dat_join, 
+        zcol = 'sum_cumulative_no_of_positive', 
+        col.regions = brewer.pal(2, 'RdBu'))
+
 ```
 
 \newpage
