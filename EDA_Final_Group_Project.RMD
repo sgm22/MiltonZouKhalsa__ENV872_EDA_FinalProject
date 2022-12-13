@@ -399,7 +399,7 @@ plot(modelpoisson) #Check fit
 ```
 
 
-## Question 3: What is the correlation between absolute population and population density and the number of COVID-19 tests does done?
+## Question 3: What is the correlation between absolute population and population density and the number of COVID-19 tests done?
 
 ### Absolute Population and COVID-19 Cases
 
@@ -468,7 +468,7 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(
 ```
 
 
-###  Question 3b: Does this the relationship with the stronger correlated relationship vary among settlement types?
+###  Question 3b: Does the stronger correlated relationship vary among settlement types?
 
 ### Absolute Population and Settlement Types
 
