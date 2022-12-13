@@ -114,6 +114,7 @@ library (leaflet)
 library(mapview)
 library(AER)
 library (corrplot)
+library(RColorBrewer)
 
 
 
@@ -542,9 +543,37 @@ ggplot(data = counties.sf) +
 # Reveal the names of the columns
 colnames(combined_dat_ny_covid_pop)
 
-# Convert to an sf object.
-combined_dat_ny_covid_pop.sf <- combined_dat_ny_covid_pop %>%
-  st_as_sf(coords = c('dec_long_va','dec_lat_va'), crs=4269)
+# Join the flow data to our NWIS gage location spatial dataframe.
+combined_dat_join <- merge(x = uscounty,
+                          y = combined_dat_ny_covid_pop,
+                          by.x = "NAME",
+                          by.y = "County")
+
+# Show the column names of the joined dataset.
+colnames(combined_dat_join)
+
+# Show the dimensions of this joined dataset.
+dim(combined_dat_join)
+
+# Map the population of each New York county in 2022.
+mapview(combined_dat_join, 
+        zcol = 'pop2022', 
+        col.regions = brewer.pal(2, 'RdBu'))
+
+# Map the settlement types of each New York county in 2022.
+mapview(combined_dat_join, 
+        zcol = 'settlement_type', 
+        col.regions = brewer.pal(2, 'RdBu'))
+
+# Map the sum of the cumulative number of tests administered in each New York county in 2022.
+mapview(combined_dat_join, 
+        zcol = 'sum_cumulative_no_of_tests', 
+        col.regions = brewer.pal(2, 'RdBu'))
+
+# Map the sum of the cumulative number of positive test results in each New York county in 2022.
+mapview(combined_dat_join, 
+        zcol = 'sum_cumulative_no_of_positive', 
+        col.regions = brewer.pal(2, 'RdBu'))
 
 ```
 
