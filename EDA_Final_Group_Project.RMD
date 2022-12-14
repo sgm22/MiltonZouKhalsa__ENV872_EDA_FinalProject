@@ -483,7 +483,7 @@ data was carried out. The classification of the strength of the relationship was
 determined based on the value of r which ranges from 0 to 1 where r = 0 indicates
 no association and r = -1 or +1.
 
-#### Absolute Population and COVID-19 Cases
+### Absolute Population and COVID-19 Cases
 
 *Hypotheses*
 
@@ -628,7 +628,7 @@ data was carried out. The classification of the strength of the relationship was
 determined based on the value of r which ranges from 0 to 1 where r = 0 indicates
 no association and r = -1 or +1.
 
-#### Absolute Population and COVID-19 Cases
+### Absolute Population and COVID-19 Cases
 
 *Hypotheses*
 
