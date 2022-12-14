@@ -1,0 +1,11 @@
+Variable,Description,Coding,Units,Minimum Value,Maximum Value,Missing 
+County,New York counties,character,N/A,N/A,N/A,0
+pop2022,Population in each county as of 2022,integer,N/A,5161,2782348,0
+area_milessquared,Area of each county in square miles,numeric,miles squared,22.6558,2680.379,0
+density_milessquared,Population density of each county in square miles,numeric,miles squared,3.0052,75738.89,0
+sum_new_positives,The new individuals who tested positive COVID-19 on the date of data import,integer,N/A,1054,2908643,0
+sum_cumulative_no_of_positives,Running total of positive COVID-19 tests as date of data import,integer,N/A,432991,1224453000,0
+sum_total_number_of_tests,"The number of tests performed on the data of data extracted by individuals in each county. This total includes positives, negatives, and inconclusive results",integer,N/A,20261,60433650,0
+sum_cumulative_no_of_tests,"Running total for the number of tests of individuals performed in each county as of the last update to the dataset. This total includes positives, negatives, and inconclusive results",integer,N/A,10356620,27893290000,0
+median_test_positive,For the dates before 4/4/2022: The median percentage of all COVID tests reported to the New York State Department of Health (NYSDOH) that are positive and 4/4/2022 and forward: the median percentage of PCR COVID tests that are positive,character,N/A,N/A,N/A,0
+settlement_type,Classification of county type,character,N/A,N/A,N/A,0

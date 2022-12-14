@@ -6,7 +6,7 @@ output:
     number_sections: yes
 geometry: margin=2.54cm
 title: "Tracking COVID-19 Cases Across Different Settlement Types in New York State"
-subtitle: "Web address for GitHub repository"
+subtitle: "https://github.com/sgm22/MiltonZouKhalsa__ENV872_EDA_FinalProject"
 author: "SMiltonDZouGKhalsa"
 date: "2022-11-22"
 fontsize: 12pt
@@ -74,13 +74,14 @@ can be used as a proxy when formulating policy decisions around COVID-19.
 ## Research Questions
 
 1. What is the correlation between population density and absolute population 
-and the number of COVID-19 tests cases across New York State?
+and the number of COVID-19 cases across New York State?
 
-2. What is the relationship between the predictor variables: density, absolute population,and settlement types and the response variable: cumulative COVID-19 cases?
+2. What is the relationship between the predictor variable: settlement types and
+the response variable: cumulative COVID-19 cases?
 
 3. What is the correlation between absolute population and population density 
-and the number of COVID-19 tests does done? Does this the relationship with the
-stronger correlated relationship vary among settlement types? 
+and the number of COVID-19 tests does done? Does the stronger correlated 
+relationship vary among settlement types? 
 
 
 \newpage
@@ -95,7 +96,7 @@ the README file linked below.
 
 ### Set-up Working Directory, Import and Merge Datasets
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 
 ################# Set working directory ################################
 
@@ -115,8 +116,8 @@ library(mapview)
 library(AER)
 library (corrplot)
 library(RColorBrewer)
-
-
+library(knitr)
+library(MASS)
 
 #Set theme
 
@@ -144,25 +145,6 @@ ny_pop_dat
 combined_dat_ny_covid_pop <- ny_pop_dat %>% 
   left_join(ny_covid_dat, by = "County")
 
-```
-
-\newpage
-
-# Dataset Information
-
-\newpage
-
-## Exploratory Analysis and Data Visualization
-
-### Tabular Exploration
-
-```{r}
-
-head(combined_dat_ny_covid_pop)
-summary(combined_dat_ny_covid_pop) #View Data
-dim(combined_dat_ny_covid_pop)
-
-
 ## Add column for to classify counties into settlement types
 
 combined_dat_ny_covid_pop <- combined_dat_ny_covid_pop %>%
@@ -171,6 +153,43 @@ combined_dat_ny_covid_pop <- combined_dat_ny_covid_pop %>%
                                      pop2022>= 50000 ~ 'Urban'))
 
 summary(combined_dat_ny_covid_pop) # Check data for new columns
+
+```
+
+\newpage
+
+# Dataset Information
+
+We acquired our 2020 to 2022 COVID-19 data from the New York Department of Health and population data from the U.S. Census Bureau on November 24th, 2022. County names did not match between the census data and NY Department of Health data. We wrangled our data by removing the word "county" from each county in the census data. In addition to the 62 counties, the NY Health Department broke counties down into smaller sections resulting in more than 62 counties. Since we only want to work with the original counties, we left-merged the NY health data onto the county data on November 24th, 2022. We are using the merged version as our main data source. Additionally on November 24th, 2022, we uploaded the state map file that was incorporated in class for ENV872. Lastly, we added spatial files and updated the data types and variable types for the combined data set on November 27th, 2022.
+
+Data Information:
+https://www.census.gov/library/stories/state-by-state/new-york-population-change-between-census-decade.html
+COVID-19 Variant Data | Department of Health (ny.gov) – (March 1, 2020,  to November 22, 2022)
+cb_2018_us_county_20m.shp state FIPS code 36
+
+## Keywords
+
+ENV872, COVID-19, COVID, virus, virus spread, New York, New York State
+
+```{r, echo=FALSE}
+
+meta_data_tab <- read.csv("./Data/Meta_Data/meta_data_table.csv")
+
+kable(meta_data_tab)
+
+```
+
+\newpage
+
+## Exploratory Analysis and Data Visualization
+
+### Tabular Exploration
+
+```{r, message=FALSE, warning=FALSE}
+
+head(combined_dat_ny_covid_pop)
+summary(combined_dat_ny_covid_pop) #View Data
+dim(combined_dat_ny_covid_pop)
 
 
 #View mean COVID cases and mean COVID test conducted by settlement types
@@ -183,13 +202,12 @@ collapsed_dat_settlement_types <- combined_dat_ny_covid_pop %>%
             Mean_Settlement_Density = mean (density_permilessquared))
 
 collapsed_dat_settlement_types #View table
-write.csv2(collapsed_dat_settlement_types,"./Data/Processed_Data/collapsed_dat_settlement_types.csv")
 
 ```
 
 ### Graphical Exploration
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 
 # Visualizing Distribution of Variables
 
@@ -263,6 +281,13 @@ ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(pop2022)
   xlab("Settlement Types") +
   ylab("Log of Absolute Population Size 2022")
 
+```
+
+
+### Spatial Context of Data
+
+```{r, message=FALSE, warning=FALSE}
+
 
 # Read in counties shapefile into an sf dataframe, filtering for just NY counties (GURUBANDAA)
 
@@ -272,265 +297,8 @@ uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp', stringsAsF
     ) %>%
   st_as_sf(coords = c('SITE_LONGITUDE','SITE_LATITUDE'), crs=4269)
 
-```
 
-### Export Processed data
-
-```{r}
-
-getwd() #Check working directory
-
-write.csv2(combined_dat_ny_covid_pop,"./Data/Processed_Data/Combined_NY_COVID_Pop.csv")
-```
-
-
-\newpage
-
-
-# Analysis
-
-As a central question of this study is "How  well does population density and
-absolute population predict COVID-19 cases?", the predictor variables are 
-population density per miles squared and absolute population while the outcome 
-variable is sum cumulative positive number of positive COVID-19 tests which is 
-being used as a proxy for COVID-19 cases. Our unit of analysis is counties and 
-settlement types depending on the primary objective of 
-each sub-question. Settlement types are classified based on our definitions of
-rural, micropolitan, and urban settlement types. Our hypotheses for each study question
-is indicated below.
-
-## Question 1:  What is the correlation between population density and absolute population and the number of COVID-19 cases(cumulative number of positive tests) across New York State?
-
-### Absolute Population and COVID-19 Cases
-
-#### Hypotheses:
-
-Null Hypothesis: As the ranks of absolute population change, the ranks of the number of COVID-19 cases do not change. 
-Alternative Hypothesis:  As the ranks of absolute population change, the ranks of the number of COVID-19 cases change.
-
-
-#### Assumptions:
-
-1. The relationship between both variables is monotonic.
-
-
-```{r, message=FALSE}
-
-# Spearman rank correlation test as distributions are skewed
-
-
-correlation_results_absol_pop <- cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive), method = "spearman")
-correlation_results_absol_pop
-
-# Visualize plot (Log-transformed for better visualization)
-
-ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_positive)))+
-  geom_point() +
-  ylab ("Log of COVID-19 Cases") +
-  xlab ("Log of Absolute Population Across Counties") +
-  ggtitle ("The Correlation Between Absolute Population 
-           Across Counties and COVID-19 Cases") +
-  stat_smooth (method = 'lm') +
-  annotate("text",x=9,y=20, label=(paste0("R=0.99")))
-  
-```
-
-### Population Density and COVID-19 Cases
-
-#### Hypotheses:
-
-Null Hypothesis: As the ranks of population density change, the ranks of the number of COVID-19 cases do not change.
-Alternative Hypothesis: As the ranks of population density change, the ranks of the number of COVID-19 cases change.
-
-#### Assumptions:
-
-1. The relationship between both variables is monotonic.
-
-```{r}
-
-# Spearman rank correlation test as distributions are skewed
-
-
-correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$density_permilessquared),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive), method = "spearman")
-correlation_results_pop_density
-
-# Visualize plot (Log-transformed for better visualization)
-
-ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(sum_cumulative_no_of_positive)))+
-  geom_point() +
-  xlab (" Log of Population Density (per miles squared)") +
-  ylab ("Log of COVID-19 Cases") +
-  ggtitle ("The Correlation Between Population Densities
-           Across Counties and COVID-19 Cases") +
-  geom_smooth (method = 'lm')+
-  annotate("text",x=3,y=20, label=(paste0("R=0.89")))
-```
-
-
-## Question 2:  What is the relationship between the predictor variables: density, absolute population,and settlement types and the response variable: cumulative COVID-19 cases?
-
-### Poisson Regression: Absolute Population and COVID-19 Cases
-
-#### Hypotheses:
-
-Null Hypothesis:
-Alternative Hypothesis:
-
-#### Assumptions:
-
-1. The response variable (COVID cases) is a count variable.
-2. Each observation of data is independent of each other.
-3. The distribution of counts follow a Poisson distribution.
-
-
-```{r}
-
-## Quasipoisson Regression
-
-summary (modelpoisson <- glm(log(sum_cumulative_no_of_positive) ~ log(density_permilessquared) + log(pop2022) + factor(settlement_type), family = quasipoisson, data = combined_dat_ny_covid_pop))
-
-
-par (mfrow = c(2,2))
-plot(modelpoisson) #Check fit
-
-
-
-
-## Visualize the Results
-
-```
-
-
-## Question 3: What is the correlation between absolute population and population density and the number of COVID-19 tests done?
-
-### Absolute Population and COVID-19 Cases
-
-#### Hypotheses:
-
-Null Hypothesis: As the ranks of absolute population change, the ranks of the number of COVID-19 tests conducted do not change. 
-Alternative Hypothesis:  As the ranks of absolute population change, the ranks of the number of COVID-19 tests conducted change.
-
-#### Assumptions:
-
-1. The relationship between both variables is monotonic.
-
-```{r, message=FALSE}
-
-# Spearman rank correlation test as distributions are skewed
-
-
-correlation_results_absol_pop <- cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
-correlation_results_absol_pop
-
-# Visualize plot (Log-transformed for better visualization)
-
-ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_tests)))+
-  geom_point() +
-  ylab ("Log of COVID-19 Tests Conducted") +
-  xlab ("Log of Absolute Population Across Counties") +
-  ggtitle ("The Correlation Between Absolute Population 
-           Across Counties and COVID-19 Tests Conducted") +
-  stat_smooth (method = 'lm') +
-  annotate("text",x=9,y=22, label=(paste0("R=0.97")))
-  
-```
-
-### Population Density and COVID-19 Cases
-
-#### Hypotheses:
-
-Null Hypothesis: As the ranks of population density change, the ranks of the number of COVID-19 tests conducted do not change.
-Alternative Hypothesis: As the ranks of population density change, the ranks of the number of COVID-19 tests conducted change.
-
-#### Assumptions:
-
-1. The relationship between both variables is monotonic.
-
-```{r}
-
-# Spearman rank correlation test as distributions are skewed
-
-
-correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$density_permilessquared),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
-correlation_results_pop_density
-
-# Visualize plot (Log-transformed for better visualization)
-
-ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(sum_cumulative_no_of_tests)))+
-  geom_point() +
-  xlab (" Log of Population Density (per miles squared)") +
-  ylab ("Log of COVID-19 Tests Conducted") +
-  ggtitle ("The Correlation Between Population Densities
-           Across Counties and COVID-19 Tests Conducted") +
-  geom_smooth (method = 'lm')+
-  annotate("text",x=3,y=23, label=(paste0("R=0.86")))
-
-```
-
-
-###  Question 3b: Does the stronger correlated relationship vary among settlement types?
-
-### Absolute Population and Settlement Types
-
-```{r}
-
-### Correlation Plots by Settlement Type
-
-##Urban
-
-Urban_dat <- combined_dat_ny_covid_pop %>% 
-  filter(settlement_type=="Urban")
-
-
-correlation_results_absolute_pop_urban <- cor.test(x= log(Urban_dat$pop2022),
-                                          y = log(Urban_dat$sum_cumulative_no_of_tests), method = "spearman")
-
-correlation_results_absolute_pop_urban
-
-## Micropolitan
-
-Micropolitan_dat <- combined_dat_ny_covid_pop %>% 
-  filter(settlement_type=="Micropolitan")
-
-
-correlation_results_absolute_pop_microp <- cor.test(x= log(Micropolitan_dat$pop2022),
-                                          y = log(Micropolitan_dat$sum_cumulative_no_of_tests), method = "spearman")
-
-correlation_results_absolute_pop_microp
-
-##Rural
-
-Rural_dat <- combined_dat_ny_covid_pop %>% 
-  filter(settlement_type=="Rural")
-
-
-correlation_results_absolute_pop_rural <- cor.test(x= log(Rural_dat$pop2022),
-                                          y = log(Rural_dat$sum_cumulative_no_of_tests), method = "spearman")
-
-correlation_results_absolute_pop_rural
-```
-
-### Visualization of 3b
-
-```{r}
-
-ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_positive)))+
-  geom_point() + 
-  ylab ("Log of Cumulative Number of COVID_19 Cases") +
-  xlab ("Absolute Population (2022)")+
-  facet_wrap(vars(settlement_type)) 
- 
-```
-
-\newpage
-
-# Map of New York County Population Levels
-```{r}
-# Read in New York counties shapefile into an sf dataframe, filtering for just New York counties.
+# Visualize data
 ggplot(data = uscounty) +
   geom_sf()
 
@@ -575,7 +343,273 @@ mapview(combined_dat_join,
         zcol = 'sum_cumulative_no_of_positive', 
         col.regions = brewer.pal(2, 'RdBu'))
 
+
 ```
+
+### Export Processed data
+
+```{r, message=FALSE, warning=FALSE}
+
+getwd() #Check working directory
+
+#Full processed data set
+
+write.csv2(combined_dat_ny_covid_pop,"./Data/Processed_Data/Combined_NY_COVID_Pop.csv")
+
+#Collapsed data set
+
+write.csv2(collapsed_dat_settlement_types,"./Data/Processed_Data/collapsed_dat_settlement_types.csv")
+```
+
+
+\newpage
+
+
+# Analysis
+
+As a central question of this study is "How  well does population density and
+absolute population predict COVID-19 cases?", the predictor variables are 
+population density per miles squared and absolute population while the outcome 
+variable is sum cumulative positive number of positive COVID-19 tests which is 
+being used as a proxy for COVID-19 cases. Our unit of analysis is counties and 
+settlement types depending on the primary objective of 
+each sub-question. Settlement types are classified based on our definitions of
+rural, micropolitan, and urban settlement types. Our hypotheses for each study question
+is indicated below.
+
+## Question 1:  What is the correlation between population density and absolute population and the number of COVID-19 cases(cumulative number of positive tests) across New York State?
+
+### Absolute Population and COVID-19 Cases
+
+#### Hypotheses:
+
+Null Hypothesis: As the ranks of absolute population change, the ranks of the number of COVID-19 cases do not change. 
+Alternative Hypothesis:  As the ranks of absolute population change, the ranks of the number of COVID-19 cases change.
+
+
+#### Assumptions:
+
+1. The relationship between both variables is monotonic.
+
+
+```{r, message=FALSE, warning=FALSE}
+
+# Spearman rank correlation test as distributions are skewed
+
+
+correlation_results_absol_pop <- cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
+                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive), method = "spearman")
+correlation_results_absol_pop
+
+# Visualize plot (Log-transformed for better visualization)
+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_positive)))+
+  geom_point() +
+  ylab ("Log of COVID-19 Cases") +
+  xlab ("Log of Absolute Population Across Counties") +
+  ggtitle ("The Correlation Between Absolute Population 
+           Across Counties and COVID-19 Cases") +
+  stat_smooth (method = 'lm') +
+  annotate("text",x=9,y=20, label=(paste0("R=0.99")))
+  
+```
+
+### Population Density and COVID-19 Cases
+
+#### Hypotheses:
+
+Null Hypothesis: As the ranks of population density change, the ranks of the number of COVID-19 cases do not change.
+Alternative Hypothesis: As the ranks of population density change, the ranks of the number of COVID-19 cases change.
+
+#### Assumptions:
+
+1. The relationship between both variables is monotonic.
+
+```{r, message=FALSE, warning=FALSE}
+
+# Spearman rank correlation test as distributions are skewed
+
+
+correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$density_permilessquared),
+                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive), method = "spearman")
+correlation_results_pop_density
+
+# Visualize plot (Log-transformed for better visualization)
+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(sum_cumulative_no_of_positive)))+
+  geom_point() +
+  xlab (" Log of Population Density (per miles squared)") +
+  ylab ("Log of COVID-19 Cases") +
+  ggtitle ("The Correlation Between Population Densities
+           Across Counties and COVID-19 Cases") +
+  geom_smooth (method = 'lm')+
+  annotate("text",x=3,y=20, label=(paste0("R=0.89")))
+```
+
+
+## Question 2:  What is the relationship between the predictor variable: settlement types and the response variable: cumulative COVID-19 cases?
+
+### Negaative Binomial Regression
+
+A negative binomial regression is used as the outcome variable can be classified as
+over-dispersed count data. 
+
+#### Hypotheses:
+
+Null Hypothesis: There is no trend between the response and outcome variable.
+Alternative Hypothesis: There is a trend between the response and outcome variables.
+
+#### Assumptions:
+
+1. The response variable (COVID cases) is a count variable.
+2. Each observation of data is independent of each other.
+3. The mean and variance are not equal.
+
+
+```{r, message=FALSE, warning=FALSE}
+
+## Negative Binomial Regression
+
+summary (modelnb <- glm.nb(sum_cumulative_no_of_positive ~ factor(settlement_type), data = combined_dat_ny_covid_pop))
+
+
+par (mfrow = c(2,2))
+plot(modelnb) #Check fit
+
+
+## Check our assumption that a negative binomial is a better model than the poisson model
+
+summary (modelpoisson <- glm(sum_cumulative_no_of_positive ~ factor(settlement_type), family = "poisson", data = combined_dat_ny_covid_pop))
+
+##Residual deviance is way larger than degrees of freedom (DF). Negative binomial plot better.
+
+
+```
+
+
+## Question 3: What is the correlation between absolute population and population density and the number of COVID-19 tests done?
+
+### Absolute Population and COVID-19 Cases
+
+#### Hypotheses:
+
+Null Hypothesis: As the ranks of absolute population change, the ranks of the number of COVID-19 tests conducted do not change. 
+Alternative Hypothesis:  As the ranks of absolute population change, the ranks of the number of COVID-19 tests conducted change.
+
+#### Assumptions:
+
+1. The relationship between both variables is monotonic.
+
+```{r, message=FALSE, warning=FALSE}
+
+# Spearman rank correlation test as distributions are skewed
+
+
+correlation_results_absol_pop <- cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
+                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
+correlation_results_absol_pop
+
+# Visualize plot (Log-transformed for better visualization)
+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_tests)))+
+  geom_point() +
+  ylab ("Log of COVID-19 Tests Conducted") +
+  xlab ("Log of Absolute Population Across Counties") +
+  ggtitle ("The Correlation Between Absolute Population 
+           Across Counties and COVID-19 Tests Conducted") +
+  stat_smooth (method = 'lm') +
+  annotate("text",x=9,y=22, label=(paste0("R=0.97")))
+  
+```
+
+### Population Density and COVID-19 Cases
+
+#### Hypotheses:
+
+Null Hypothesis: As the ranks of population density change, the ranks of the number of COVID-19 tests conducted do not change.
+Alternative Hypothesis: As the ranks of population density change, the ranks of the number of COVID-19 tests conducted change.
+
+#### Assumptions:
+
+1. The relationship between both variables is monotonic.
+
+```{r, message=FALSE, warning=FALSE}
+
+# Spearman rank correlation test as distributions are skewed
+
+
+correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$density_permilessquared),
+                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
+correlation_results_pop_density
+
+# Visualize plot (Log-transformed for better visualization)
+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(sum_cumulative_no_of_tests)))+
+  geom_point() +
+  xlab (" Log of Population Density (per miles squared)") +
+  ylab ("Log of COVID-19 Tests Conducted") +
+  ggtitle ("The Correlation Between Population Densities
+           Across Counties and COVID-19 Tests Conducted") +
+  geom_smooth (method = 'lm')+
+  annotate("text",x=3,y=23, label=(paste0("R=0.86")))
+
+```
+
+
+###  Question 3b: Does the stronger correlated relationship vary among settlement types?
+
+### Absolute Population and Settlement Types
+
+```{r, message=FALSE, warning=FALSE}
+
+### Correlation Plots by Settlement Type
+
+##Urban
+
+Urban_dat <- combined_dat_ny_covid_pop %>% 
+  filter(settlement_type=="Urban")
+
+
+correlation_results_absolute_pop_urban <- cor.test(x= log(Urban_dat$pop2022),
+                                          y = log(Urban_dat$sum_cumulative_no_of_tests), method = "spearman")
+
+correlation_results_absolute_pop_urban
+
+## Micropolitan
+
+Micropolitan_dat <- combined_dat_ny_covid_pop %>% 
+  filter(settlement_type=="Micropolitan")
+
+
+correlation_results_absolute_pop_microp <- cor.test(x= log(Micropolitan_dat$pop2022),
+                                          y = log(Micropolitan_dat$sum_cumulative_no_of_tests), method = "spearman")
+
+correlation_results_absolute_pop_microp
+
+##Rural
+
+Rural_dat <- combined_dat_ny_covid_pop %>% 
+  filter(settlement_type=="Rural")
+
+
+correlation_results_absolute_pop_rural <- cor.test(x= log(Rural_dat$pop2022),
+                                          y = log(Rural_dat$sum_cumulative_no_of_tests), method = "spearman")
+
+correlation_results_absolute_pop_rural
+```
+
+### Visualization of 3b
+
+```{r, message=FALSE, warning=FALSE}
+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_positive)))+
+  geom_point() + 
+  ylab ("Log of Cumulative Number of COVID_19 Cases") +
+  xlab ("Absolute Population (2022)")+
+  facet_wrap(vars(settlement_type)) 
+ 
+```
+
 
 \newpage
 
