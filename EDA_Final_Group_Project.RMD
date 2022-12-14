@@ -26,10 +26,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 \newpage
-\tableofcontents 
-\newpage
-\listoftables 
-\newpage
 \listoffigures 
 \newpage
 

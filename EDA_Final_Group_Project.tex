@@ -588,29 +588,41 @@ code 36
 
 ENV872, COVID-19, COVID, virus, virus spread, New York, New York State
 
-\begin{table}
-
-\caption{\label{tab:unnamed-chunk-2}COVID-19 Metadata}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{>{\raggedright\arraybackslash}p{0.4in}>{\raggedleft\arraybackslash}p{2in}>{\raggedleft\arraybackslash}p{0.4in}>{\raggedleft\arraybackslash}p{0.4in}>{\raggedright\arraybackslash}p{0.4in}>{\raggedleft\arraybackslash}p{0.4in}>{\raggedleft\arraybackslash}p{0.4in}}
-\toprule
-Variable & Description & Coding & Units & Minimum.Value & Maximum.Value & Missing\\
-\midrule
-County & New York counties & character & N/A & N/A & N/A & 0\\
-pop2022 & Population in each county as of 2022 & integer & N/A & 5161 & 2782348 & 0\\
-area\_milessquared & Area of each county in square miles & numeric & miles squared & 22.6558 & 2680.379 & 0\\
-density\_milessquared & Population density of each county in square miles & numeric & miles squared & 3.0052 & 75738.89 & 0\\
-sum\_new\_positives & The new individuals who tested positive COVID-19 on the date of data import & integer & N/A & 1054 & 2908643 & 0\\
-\addlinespace
-sum\_cumulative\_no\_of\_positives & Running total of positive COVID-19 tests as date of data import & integer & N/A & 432991 & 1224453000 & 0\\
-sum\_total\_number\_of\_tests & The number of tests performed on the data of data extracted by individuals in each county. This total includes positives, negatives, and inconclusive results & integer & N/A & 20261 & 60433650 & 0\\
-sum\_cumulative\_no\_of\_tests & Running total for the number of tests of individuals performed in each county as of the last update to the dataset. This total includes positives, negatives, and inconclusive results & integer & N/A & 10356620 & 27893290000 & 0\\
-median\_test\_positive & For the dates before 4/4/2022: The median percentage of all COVID tests reported to the New York State Department of Health (NYSDOH) that are positive and 4/4/2022 and forward: the median percentage of PCR COVID tests that are positive & character & N/A & N/A & N/A & 0\\
-settlement\_type & Classification of county type & character & N/A & N/A & N/A & 0\\
-\bottomrule
-\end{tabular}}
-\end{table}
+\begin{verbatim}
+##                          Variable
+## 1                          County
+## 2                         pop2022
+## 3               area_milessquared
+## 4            density_milessquared
+## 5               sum_new_positives
+## 6  sum_cumulative_no_of_positives
+## 7       sum_total_number_of_tests
+## 8      sum_cumulative_no_of_tests
+## 9            median_test_positive
+## 10                settlement_type
+##                                                                                                                                                                                                                                    Description
+## 1                                                                                                                                                                                                                            New York counties
+## 2                                                                                                                                                                                                         Population in each county as of 2022
+## 3                                                                                                                                                                                                          Area of each county in square miles
+## 4                                                                                                                                                                                            Population density of each county in square miles
+## 5                                                                                                                                                                  The new individuals who tested positive COVID-19 on the date of data import
+## 6                                                                                                                                                                              Running total of positive COVID-19 tests as date of data import
+## 7                                                                                The number of tests performed on the data of data extracted by individuals in each county. This total includes positives, negatives, and inconclusive results
+## 8                                                       Running total for the number of tests of individuals performed in each county as of the last update to the dataset. This total includes positives, negatives, and inconclusive results
+## 9  For the dates before 4/4/2022: The median percentage of all COVID tests reported to the New York State Department of Health (NYSDOH) that are positive and 4/4/2022 and forward: the median percentage of PCR COVID tests that are positive
+## 10                                                                                                                                                                                                               Classification of county type
+##       Coding         Units Minimum.Value Maximum.Value Missing
+## 1  character           N/A           N/A           N/A       0
+## 2    integer           N/A          5161       2782348       0
+## 3    numeric miles squared       22.6558      2680.379       0
+## 4    numeric miles squared        3.0052      75738.89       0
+## 5    integer           N/A          1054       2908643       0
+## 6    integer           N/A        432991    1224453000       0
+## 7    integer           N/A         20261      60433650       0
+## 8    integer           N/A      10356620   27893290000       0
+## 9  character           N/A           N/A           N/A       0
+## 10 character           N/A           N/A           N/A       0
+\end{verbatim}
 
 \newpage
 
@@ -724,7 +736,7 @@ the various settlement types using box plots.
             \AttributeTok{Mean\_Absolute\_Population =} \FunctionTok{mean}\NormalTok{(pop2022),}
             \AttributeTok{Mean\_Settlement\_Density =} \FunctionTok{mean}\NormalTok{ (density\_permilessquared))}
 
-\NormalTok{collapsed\_dat\_settlement\_types }\CommentTok{\#View table}
+\FunctionTok{print}\NormalTok{(collapsed\_dat\_settlement\_types) }\CommentTok{\#View table}
 \end{Highlighting}
 \end{Shaded}
 
@@ -738,29 +750,6 @@ the various settlement types using box plots.
 ## # ... with abbreviated variable names 1: Mean_Absolute_Population,
 ## #   2: Mean_Settlement_Density
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{kable}\NormalTok{(collapsed\_dat\_settlement\_types, }\AttributeTok{caption =} \StringTok{"Summary of COVID and Population Data by Settlement Types"}\NormalTok{) }\CommentTok{\#Generate Table}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{table}
-
-\caption{\label{tab:unnamed-chunk-3}Summary of COVID and Population Data by Settlement Types}
-\centering
-\begin{tabular}[t]{l|r|r|r|r}
-\hline
-settlement\_type & Mean\_COVID\_cases & Mean\_Tests\_Conducted & Mean\_Absolute\_Population & Mean\_Settlement\_Density\\
-\hline
-Micropolitan & 4166072 & 98127075 & 41448.36 & 64.17904\\
-\hline
-Rural & 1274503 & 34469996 & 15877.00 & 43.39223\\
-\hline
-Urban & 80411031 & 1763706740 & 438621.53 & 4495.28103\\
-\hline
-\end{tabular}
-\end{table}
 
 \hypertarget{graphical-exploration}{%
 \subsubsection{Graphical Exploration}\label{graphical-exploration}}
