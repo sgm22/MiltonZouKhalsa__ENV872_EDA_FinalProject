@@ -683,6 +683,8 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_n
 
 >After determining that the correlation between absolute population and number of COVID-19 tests conducted is stronger, we examined within those parameters to see if this correlation varies among settlement types. We performed the Spearman rank correlation test on all three settlement types. Urban settlements had a p-value of 2.2e-16 and an R-squared value of 0.96, micropolitan settlements had a p-value of 0.002 and an R-squared value of 0.77, and rural settlements had a p-value of 1 and an R-squared value of 0.5. We reject the null hypotheses to accept the alternative hypotheses for urban and micropolitan settlements, but accept the null hypothesis for rural settlements. The correlation is strongest with urban settlements. However, we do acknowledge that the rural settlements only had 3 data points, which is much fewer than the amount of data of micropolitan and urban settlements.
 
+>In conclusion, we do see a strong correlation between both absolute population and population density and the number of COVID-19 cases in New York, as well as the relationship between both absolute population and population density and the number of COVID-19 tests conducted in New York. In both cases, the absolute population correlation was the stronger of the two. There is also a strong correlation between absolute population and urban settlements.
+
 \newpage
 
 # References
