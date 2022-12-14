@@ -672,7 +672,7 @@ ggplot(combined_dat_ny_covid_pop,
   
 ```
 
-#### Population Density and COVID-19 Cases
+### Population Density and COVID-19 Cases
 
 *Hypotheses:*
 
