@@ -326,7 +326,7 @@ ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(pop2022)
 
 ### Spatial Context of Data
 
-###```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 
 
 # Read in counties shapefile into an sf dataframe, filtering for just NY counties (GURUBANDAA)
@@ -441,6 +441,10 @@ correlation_results_absol_pop <- cor.test(x= log(combined_dat_ny_covid_pop$pop20
                                           y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive), method = "spearman")
 correlation_results_absol_pop
 
+```
+
+```{r, message=FALSE, warning=FALSE, fig.cap= "Correlation Between Absolute Population Across Counties and COVID-19 Cases", fig.align='default', fig.height= 2.5 }
+
 # Visualize plot (Log-transformed for better visualization)
 
 ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_positive)))+
@@ -474,6 +478,10 @@ correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$den
                                           y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive), method = "spearman")
 correlation_results_pop_density
 
+```
+
+```{r, message=FALSE, warning=FALSE, fig.cap= "Correlation Between Population Densities Across Counties and COVID-19 Cases", fig.align='left', fig.height= 2.5 }
+
 # Visualize plot (Log-transformed for better visualization)
 
 ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(sum_cumulative_no_of_positive)))+
@@ -484,6 +492,7 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(
            Across Counties and COVID-19 Cases") +
   geom_smooth (method = 'lm')+
   annotate("text",x=3,y=20, label=(paste0("R=0.89")))
+
 ```
 
 
@@ -506,7 +515,7 @@ Alternative Hypothesis: There is a trend between the response and outcome variab
 3. The mean and variance are not equal.
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, fig.cap= "Negative Binomial Regression", fig.align='left', fig.height= 2.5}
 
 ## Negative Binomial Regression
 
@@ -549,6 +558,10 @@ correlation_results_absol_pop <- cor.test(x= log(combined_dat_ny_covid_pop$pop20
                                           y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
 correlation_results_absol_pop
 
+```
+
+```{r, message=FALSE, warning=FALSE, fig.cap= "Correlation Between Absolute Population Across Counties and COVID-19 Tests Conducted", fig.align='left', fig.height= 2.5}
+
 # Visualize plot (Log-transformed for better visualization)
 
 ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_tests)))+
@@ -581,6 +594,10 @@ Alternative Hypothesis: As the ranks of population density change, the ranks of 
 correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$density_permilessquared),
                                           y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
 correlation_results_pop_density
+
+```
+
+```{r, message=FALSE, warning=FALSE, fig.cap= "Correlation Between Absolute Population Densities Across Counties and COVID-19 Tests Conducted", fig.align='left', fig.height= 2.5}
 
 # Visualize plot (Log-transformed for better visualization)
 
@@ -636,15 +653,16 @@ correlation_results_absolute_pop_rural <- cor.test(x= log(Rural_dat$pop2022),
                                           y = log(Rural_dat$sum_cumulative_no_of_tests), method = "spearman")
 
 correlation_results_absolute_pop_rural
+
 ```
 
 ### Visualization of 3b
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Cumulative COVID-19 Cases Across Settlement Types", fig.align='left', fig.height= 2.5}
 
 ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_positive)))+
   geom_point() + 
-  ylab ("Log of Cumulative Number of COVID_19 Cases") +
+  ylab ("Log of Cumulative Number of COVID-19 Cases") +
   xlab ("Absolute Population (2022)")+
   facet_wrap(vars(settlement_type)) 
  
@@ -654,6 +672,7 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_n
 \newpage
 
 # Summary and Conclusions
+
 
 
 \newpage
