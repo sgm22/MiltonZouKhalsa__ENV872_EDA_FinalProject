@@ -249,7 +249,7 @@ ggplot(data = combined_dat_ny_covid_pop, aes(sum_cumulative_no_of_positive))+
 ggplot(data = combined_dat_ny_covid_pop, aes(log(sum_cumulative_no_of_positive))) +
   geom_histogram() +
   xlab ("Log of Cumulative Number of Positive COVID-19 Tests") +
-  ggtitle("Histogram of Log of Cumulative Number of Positive COVID-19 Tests") +
+  ggtitle("Histogram of Log of Cumulative Number of Positive COVID-19 Tests")
 
 shapiro.test(log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive)) #Check normality
 
