@@ -299,7 +299,7 @@ uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp', stringsAsF
 
 
 # Visualize data
-ggplot(data = uscounty) +
+counties.sf <- ggplot(data = uscounty) +
   geom_sf()
 
 # Plot the data.
