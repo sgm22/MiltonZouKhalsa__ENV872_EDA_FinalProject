@@ -198,15 +198,7 @@ meta_data_tab <- read.csv("./Data/Meta_Data/meta_data_table.csv")
 kable(meta_data_tab, col.names = c("Variable", "Description", "Coding", "Units", "Minimum.Value", "Maximum.Value", "Missing"),
                       caption="COVID-19 Metadata", row.names=FALSE, align=c("l",rep("r",3)),
                       format="latex", booktabs=TRUE)  %>%
-      kable_styling(latex_options="scale_down") %>%
-      column_spec(1,width = "0.4in") %>%
-      column_spec(2,width = "2in") %>%
-      column_spec(3,width = "0.4in") %>%
-      column_spec(4,width = "0.4in") %>%
-      column_spec(5,width = "0.4in") %>%
-      column_spec(6,width = "0.4in") %>%
-      column_spec(7,width = "0.4in")
-
+      kable_styling(full_width = TRUE)
 ```
 
 \newpage
@@ -236,7 +228,8 @@ collapsed_dat_settlement_types <- combined_dat_ny_covid_pop %>%
 
 collapsed_dat_settlement_types #View table
 
-kable(collapsed_dat_settlement_types, caption = "Summary of COVID and Population Data by Settlement Types") #Generate Table
+kable(collapsed_dat_settlement_types, caption = "Summary of COVID and Population Data by Settlement Types") %>%
+  kable_styling(latex_options="full_width = TRUE") #Generate Table
 
 ```
 
