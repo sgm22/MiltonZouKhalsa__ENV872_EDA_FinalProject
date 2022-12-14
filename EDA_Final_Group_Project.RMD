@@ -630,8 +630,8 @@ no association and r = -1 or +1.
 
 #### Absolute Population and COVID-19 Cases
 
+*Hypotheses*
 
-*Hypotheses:*
 
 Null Hypothesis: As the ranks of absolute population change, the ranks of the number of COVID-19 tests conducted do not change. 
 
@@ -673,7 +673,6 @@ ggplot(combined_dat_ny_covid_pop,
 ```
 
 #### Population Density and COVID-19 Cases
-
 
 *Hypotheses:*
 
