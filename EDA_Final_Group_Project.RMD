@@ -132,7 +132,8 @@ my_theme <- theme_bw(base_size = 12) +
 theme_set(my_theme)
 
 
-#Import NY State county level COVID data (March 1, 2020 to November 22, 2022) from NY Health.
+#Import NY State county level COVID data (March 1, 2020 to November 22, 2022)
+#from NY Health.
 
 ny_covid_dat <- read.csv("./Data/Raw_Data/NY_COVID_County_Level.csv")
 
@@ -140,7 +141,8 @@ ny_covid_dat #View Data
 
 #Import NY population data (2022)
 
-ny_pop_dat <- read.csv("./Data/Raw_Data/NY_County_Level_Population_Data.csv",stringsAsFactors = TRUE)
+ny_pop_dat <- read.csv("./Data/Raw_Data/NY_County_Level_Population_Data.csv"
+                       ,stringsAsFactors = TRUE)
 
 ny_pop_dat
 
@@ -242,12 +244,14 @@ ggplot(data = combined_dat_ny_covid_pop, aes(sum_cumulative_no_of_positive))+
 
 ## Log Transform
 
-ggplot(data = combined_dat_ny_covid_pop, aes(log(sum_cumulative_no_of_positive))) +
+ggplot(data = combined_dat_ny_covid_pop,
+       aes(log(sum_cumulative_no_of_positive))) +
   geom_histogram() +
   xlab ("Log of Cumulative Number of Positive COVID-19 Tests") +
   ggtitle("Histogram of Log of Cumulative Number of Positive COVID-19 Tests")
 
-shapiro.test(log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive)) #Check normality
+shapiro.test(log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive)) 
+#Check normality
 
 ```
 
@@ -271,7 +275,8 @@ ggplot(data = combined_dat_ny_covid_pop, aes(log(sum_cumulative_no_of_tests))) +
   xlab ("Log of Cumulative Number of COVID-19 Tests Conducted") +
   ggtitle("Histogram of Log of Cumulative Number of COVID-19 Tests Conducted")
 
-shapiro.test(log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests)) #Check normality
+shapiro.test(log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests))
+#Check normality
 
 ```
 
@@ -319,14 +324,17 @@ ggplot(data = combined_dat_ny_covid_pop, aes(log(density_permilessquared))) +
   xlab("Log of Density of Counties Across New York State") +
   ggtitle (" Log of Histogram of Density of Counties Across New York State")
 
-shapiro.test(log(combined_dat_ny_covid_pop$density_permilessquared)) #Check normality
+shapiro.test(log(combined_dat_ny_covid_pop$density_permilessquared))
+#Check normality
 
 ```
 
 ```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Absolute Population Size of Counties by Settlement Type", fig.align='left', fig.height= 2.5 }
 ########### Visualize Distribution of Predictor Variables by Settlement Type
 
-ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(density_permilessquared), fill = settlement_type))+
+ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type,
+                                             y= log(density_permilessquared),
+                                             fill = settlement_type))+
   geom_boxplot() +
   ggtitle ("Log of Absolute Population Size of Counties by Settlement Type") +
   xlab("Settlement Types") +
@@ -336,7 +344,8 @@ ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(density_
 
 ```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Population Density of Counties by Settlement Type", fig.align='left', fig.height= 2.5 }
 
-ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(pop2022), fill = settlement_type))+
+ggplot(data = combined_dat_ny_covid_pop,
+       aes(x= settlement_type, y= log(pop2022), fill = settlement_type))+
   geom_boxplot() +
     ggtitle ("Log of Population Density of Counties by Settlement Type") +
   xlab("Settlement Types") +
@@ -351,9 +360,12 @@ ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(pop2022)
 
 # Map of New York County Population Levels
  
-# The EPSG code of the New York counties dataset is 4269. This is a geographic coordinate reference system, so it uses angular coordinate units. This CRS (4269) is associated with the datum NAD83.
+# The EPSG code of the New York counties dataset is 4269.
+#This is a geographic coordinate reference system, so it uses
+#angular coordinate units. This CRS (4269) is associated with the datum NAD83.
 
-uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp', stringsAsFactors = TRUE) %>%
+uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp',
+                    stringsAsFactors = TRUE) %>%
  filter(STATEFP == 36)
  
 # Reveal the names of the columns
@@ -373,7 +385,7 @@ dim(combined_dat_join)
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Population of New York Counties", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Population of New York Counties", fig.align='left', fig.height= 4, fig.width= 5}
 
 # Map the population of each New York county in 2022.
 ggplot() +
@@ -385,7 +397,7 @@ ggplot() +
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Settlement Types of New York Counties", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Settlement Types of New York Counties", fig.align='left', fig.height= 4, fig.width= 5}
  
 # Map the settlement types of each New York county in 2022.
 ggplot() +
@@ -396,11 +408,14 @@ ggplot() +
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Tests Administered in Each New York County", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Tests Administered in Each New York County", fig.align='left', fig.height= 4, fig.width= 5}
  
-# Map the sum of the cumulative number of tests administered in each New York county in 2022.
+# Map the sum of the cumulative number of tests administered in each
+#New York county in 2022.
+
 ggplot() +
-  geom_sf(data = combined_dat_join, aes(fill = log(sum_cumulative_no_of_tests))) +
+  geom_sf(data = combined_dat_join,
+          aes(fill = log(sum_cumulative_no_of_tests))) +
   scale_fill_gradientn(colours = terrain.colors(10)) +
   ggtitle("COVID-19 in New York",
           subtitle = "Cumulative Number of Tests Administered") +
@@ -408,11 +423,14 @@ ggplot() +
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Positive Test Results in Each New York County", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Positive Test Results in Each New York County", fig.align='left', fig.height= 4, fig.width= 5}
  
-# Map the sum of the cumulative number of positive test results in each New York county in 2022.
+# Map the sum of the cumulative number of positive test results in each
+#New York county in 2022.
+
 ggplot() +
-  geom_sf(data = combined_dat_join, aes(fill = log(sum_cumulative_no_of_positive))) +
+  geom_sf(data = combined_dat_join,
+          aes(fill = log(sum_cumulative_no_of_positive))) +
   scale_fill_gradientn(colours = terrain.colors(10)) +
   ggtitle("COVID-19 in New York",
           subtitle = "Cumulative Number of Positive Test Results in 2022") +
@@ -428,11 +446,13 @@ getwd() #Check working directory
 
 #Full processed data set
 
-write.csv2(combined_dat_ny_covid_pop,"./Data/Processed_Data/Combined_NY_COVID_Pop.csv")
+write.csv2(combined_dat_ny_covid_pop,
+           "./Data/Processed_Data/Combined_NY_COVID_Pop.csv")
 
 #Collapsed data set
 
-write.csv2(collapsed_dat_settlement_types,"./Data/Processed_Data/collapsed_dat_settlement_types.csv")
+write.csv2(collapsed_dat_settlement_types,
+           "./Data/Processed_Data/collapsed_dat_settlement_types.csv")
 ```
 
 
@@ -481,8 +501,10 @@ Alternative Hypothesis: As the ranks of absolute population change, the ranks of
 # Spearman rank correlation test as distributions are skewed
 
 
-correlation_results_absol_pop <- cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive), method = "spearman")
+correlation_results_absol_pop <-
+  cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
+                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive),
+           method = "spearman")
 correlation_results_absol_pop
 
 ```
@@ -491,7 +513,8 @@ correlation_results_absol_pop
 
 # Visualize plot (Log-transformed for better visualization)
 
-ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_positive)))+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022),
+                                      y = log(sum_cumulative_no_of_positive)))+
   geom_point() +
   ylab ("Log of COVID-19 Cases") +
   xlab ("Log of Absolute Population Across Counties") +
@@ -520,7 +543,8 @@ Alternative Hypothesis: As the ranks of population density change, the ranks of 
 
 
 correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$density_permilessquared),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive), method = "spearman")
+                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive),
+                                          method = "spearman")
 correlation_results_pop_density
 
 ```
@@ -564,7 +588,9 @@ Alternative Hypothesis: There is a trend between the response (settlement types)
 
 ## Negative Binomial Regression
 
-summary (modelnb <- glm.nb(sum_cumulative_no_of_positive ~ factor(settlement_type), data = combined_dat_ny_covid_pop))
+summary (modelnb <-
+           glm.nb(sum_cumulative_no_of_positive ~ factor(settlement_type),
+                  data = combined_dat_ny_covid_pop))
 
 
 par (mfrow = c(2,2))
@@ -576,11 +602,15 @@ pchisq(q=modelnb$deviance, df=modelnb$df.residual,
 lower.tail=FALSE)  #Check model fit
 
 
-## Check our assumption that a negative binomial is a better model than the poisson model
+## Check our assumption that a negative binomial is a better model than the
+#poisson model
 
-summary (modelpoisson <- glm(sum_cumulative_no_of_positive ~ factor(settlement_type), family = "poisson", data = combined_dat_ny_covid_pop))
+summary (modelpoisson <-
+           glm(sum_cumulative_no_of_positive ~ factor(settlement_type),
+               family = "poisson", data = combined_dat_ny_covid_pop))
 
-## Summary inference: Residual deviance is much larger than degrees of freedom (DF). Negative binomial plot better.
+## Summary inference: Residual deviance is much larger than degrees of
+#freedom (DF). Negative binomial plot better.
 
 ```
 
@@ -613,7 +643,8 @@ Alternative Hypothesis:  As the ranks of absolute population change, the ranks o
 # Spearman rank correlation test as distributions are skewed
 
 
-correlation_results_absol_pop <- cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
+correlation_results_absol_pop <-
+  cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
                                           y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
 correlation_results_absol_pop
 
@@ -623,7 +654,8 @@ correlation_results_absol_pop
 
 # Visualize plot (Log-transformed for better visualization)
 
-ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_tests)))+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022),
+                                      y = log(sum_cumulative_no_of_tests)))+
   geom_point() +
   ylab ("Log of COVID-19 Tests Conducted") +
   xlab ("Log of Absolute Population Across Counties") +
@@ -687,8 +719,9 @@ Urban_dat <- combined_dat_ny_covid_pop %>%
   filter(settlement_type=="Urban")
 
 
-correlation_results_absolute_pop_urban <- cor.test(x= log(Urban_dat$pop2022),
-                                          y = log(Urban_dat$sum_cumulative_no_of_tests), method = "spearman")
+correlation_results_absolute_pop_urban <-
+  cor.test(x= log(Urban_dat$pop2022),
+          y = log(Urban_dat$sum_cumulative_no_of_tests), method = "spearman")
 
 correlation_results_absolute_pop_urban
 
@@ -698,8 +731,10 @@ Micropolitan_dat <- combined_dat_ny_covid_pop %>%
   filter(settlement_type=="Micropolitan")
 
 
-correlation_results_absolute_pop_microp <- cor.test(x= log(Micropolitan_dat$pop2022),
-                                          y = log(Micropolitan_dat$sum_cumulative_no_of_tests), method = "spearman")
+correlation_results_absolute_pop_microp <-
+  cor.test(x= log(Micropolitan_dat$pop2022),
+          y = log(Micropolitan_dat$sum_cumulative_no_of_tests),
+          method = "spearman")
 
 correlation_results_absolute_pop_microp
 
@@ -709,8 +744,9 @@ Rural_dat <- combined_dat_ny_covid_pop %>%
   filter(settlement_type=="Rural")
 
 
-correlation_results_absolute_pop_rural <- cor.test(x= log(Rural_dat$pop2022),
-                                          y = log(Rural_dat$sum_cumulative_no_of_tests), method = "spearman")
+correlation_results_absolute_pop_rural <- 
+  cor.test(x= log(Rural_dat$pop2022),
+          y = log(Rural_dat$sum_cumulative_no_of_tests), method = "spearman")
 
 correlation_results_absolute_pop_rural
 
@@ -720,7 +756,8 @@ correlation_results_absolute_pop_rural
 
 ```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Cumulative COVID-19 Cases Across Settlement Types", fig.align='left', fig.height= 2.5}
 
-ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_no_of_positive)))+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022),
+                                      y = log(sum_cumulative_no_of_positive)))+
   geom_point() + 
   ylab ("Log of Cumulative Number of COVID-19 Cases") +
   xlab ("Absolute Population (2022)")+
