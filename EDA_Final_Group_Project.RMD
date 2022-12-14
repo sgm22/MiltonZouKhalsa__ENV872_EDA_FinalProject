@@ -3,16 +3,16 @@ title: "Tracking COVID-19 Cases Across Different Settlement Types in New York St
 author: "SMiltonDZouGKhalsa"
 date: "2022-11-22"
 output:
-  html_document:
-    toc: yes
-    toc_depth: '2'
-    df_print: paged
   pdf_document:
     keep_tex: yes
     fig_caption: yes
     number_sections: yes
     toc: yes
     toc_depth: 2
+  html_document:
+    toc: yes
+    toc_depth: '2'
+    df_print: paged
 geometry: margin=2.54cm
 subtitle: https://github.com/sgm22/MiltonZouKhalsa__ENV872_EDA_FinalProject
 fontsize: 12pt
@@ -477,7 +477,7 @@ were showed to still not be normally distributed after a Shapiro-Wilk test of
 normality was performed. As such, a Spearman correlation analysis for non-parametric 
 data was carried out. The classification of the strength of the relationship was 
 determined based on the value of r which ranges from 0 to 1 where r = 0 indicates
-no association and r = −1 or +1.
+no association and r = -1 or +1.
 
 #### Absolute Population and COVID-19 Cases
 
@@ -611,7 +611,7 @@ were showed to still not be normally distributed after a Shapiro-Wilk test of
 normality was performed. As such, a Spearman correlation analysis for non-parametric 
 data was carried out. The classification of the strength of the relationship was 
 determined based on the value of r which ranges from 0 to 1 where r = 0 indicates
-no association and r = −1 or +1.
+no association and r = -1 or +1.
 
 #### Absolute Population and COVID-19 Cases
 

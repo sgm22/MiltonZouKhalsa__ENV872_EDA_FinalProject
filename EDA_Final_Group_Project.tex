@@ -76,16 +76,6 @@
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -103,6 +93,20 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -143,12 +147,13 @@ York State}
 \newpage
 
 \hypertarget{rationale-and-research-questions}{%
-\section{Rationale and Research
+\subsection{Rationale and Research
 Questions}\label{rationale-and-research-questions}}
 
 \hypertarget{rationale}{%
-\subsection{Rationale}\label{rationale}}
+\subsubsection{Rationale}\label{rationale}}
 
+\begin{quote}
 Coronavirus disease (COVID-19) is an infectious disease caused by the
 severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)
 (Coronavirus, n.d.). The virus is primarily spread from person to person
@@ -165,7 +170,9 @@ COVID-19 spread (Truelove et al., n.d.). Very few epidemiological
 COVID-19 models incorporate population density explicitly even though
 population density is thought to be an important factor(Hamidi et al.,
 2020; Wong \& Li, 2020).
+\end{quote}
 
+\begin{quote}
 In New York State, since the beginning of the pandemic there has been
 over 6 million cases of COVID-19. In January 2022, the state recorded
 the highest number of cases while in April 2020, it recorded the highest
@@ -182,7 +189,9 @@ absolute population and population density predict COVID-19 case numbers
 in the diversely sized New York State. Further, we explore whether the
 relationship between absolute population and population density changes
 among different settlement types.
+\end{quote}
 
+\begin{quote}
 Settlement types are defined as population centers of humans who have
 developed a long-term community in a specific area (Settlements Overview
 \& Types \textbar{} What Are Settlements?, n.d.). In this study,
@@ -196,9 +205,10 @@ size and density on COVID-19 prevalence and how that varies across
 settlement type, we are able to better understand if population density
 and/or absolute population can be used as a proxy when formulating
 policy decisions around COVID-19.
+\end{quote}
 
 \hypertarget{research-questions}{%
-\subsection{Research Questions}\label{research-questions}}
+\subsubsection{Research Questions}\label{research-questions}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -216,18 +226,17 @@ policy decisions around COVID-19.
 
 \newpage
 
+\textbf{Set-up Working Directory, Import and Merge Data sets}
+
+\begin{quote}
 In order to answer our research question, we imported data that contains
 information about New York (NY) state population size and density by
 county in 2022 from the U.S. Census Bureau. This information was then
 combined with data regarding number of positive COVID-19 cases, quantity
 of COVID-19 tests conducted and other relevant information collected by
 the New York Department of Health from March 1, 2020 to November 22,
-2022. More information on the files used can be found on the README file
-linked below.
-
-\hypertarget{set-up-working-directory-import-and-merge-datasets}{%
-\subsubsection{Set-up Working Directory, Import and Merge
-Datasets}\label{set-up-working-directory-import-and-merge-datasets}}
+2022.
+\end{quote}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -238,7 +247,7 @@ Datasets}\label{set-up-working-directory-import-and-merge-datasets}}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "C:/Users/sasho/Desktop/Environ Data Analytics/Env872 Workspace/MiltonZouKhalsa__ENV872_EDA_FinalProject"
+## [1] "/Users/danleizou/MiltonZouKhalsa__ENV872_EDA_FinalProject3"
 \end{verbatim}
 
 \begin{Shaded}
@@ -259,6 +268,7 @@ Datasets}\label{set-up-working-directory-import-and-merge-datasets}}
 \FunctionTok{library}\NormalTok{(RColorBrewer)}
 \FunctionTok{library}\NormalTok{(knitr)}
 \FunctionTok{library}\NormalTok{(MASS)}
+\FunctionTok{library}\NormalTok{(kableExtra)}
 
 \CommentTok{\#Set theme}
 
@@ -526,16 +536,16 @@ Datasets}\label{set-up-working-directory-import-and-merge-datasets}}
 ##     County             pop2022        area_milessquared density_permilessquared
 ##  Length:62          Min.   :   5161   Min.   :  22.66   Min.   :    3.01       
 ##  Class :character   1st Qu.:  48289   1st Qu.: 441.55   1st Qu.:   73.02       
-##  Mode  :character   Median :  86999   Median : 653.65   Median :  113.46       
+##  Mode  :character   Median :  86998   Median : 653.65   Median :  113.46       
 ##                     Mean   : 328482   Mean   : 760.09   Mean   : 3279.30       
-##                     3rd Qu.: 236911   3rd Qu.:1022.40   3rd Qu.:  418.14       
+##                     3rd Qu.: 236910   3rd Qu.:1022.40   3rd Qu.:  418.14       
 ##                     Max.   :2782348   Max.   :2680.38   Max.   :75738.89       
 ##  sum_new_positives sum_cumulative_no_of_positive sum_total_number_of_tests
 ##  Min.   :   1054   Min.   :4.330e+05             Min.   :   20261         
 ##  1st Qu.:  12905   1st Qu.:5.329e+06             1st Qu.:  240066         
 ##  Median :  23804   Median :9.156e+06             Median :  406342         
 ##  Mean   : 138799   Mean   :5.937e+07             Mean   : 2723930         
-##  3rd Qu.:  64601   3rd Qu.:2.758e+07             3rd Qu.: 1462341         
+##  3rd Qu.:  64600   3rd Qu.:2.758e+07             3rd Qu.: 1462341         
 ##  Max.   :2908643   Max.   :1.224e+09             Max.   :60433651         
 ##  sum_cumulative_no_of_tests median_test_positive settlement_type   
 ##  Min.   :1.036e+07          Length:62            Length:62         
@@ -549,8 +559,9 @@ Datasets}\label{set-up-working-directory-import-and-merge-datasets}}
 \newpage
 
 \hypertarget{dataset-information}{%
-\section{Dataset Information}\label{dataset-information}}
+\subsection{Dataset Information}\label{dataset-information}}
 
+\begin{quote}
 We acquired our 2020 to 2022 COVID-19 data from the New York Department
 of Health and population data from the U.S. Census Bureau on November
 24th, 2022. County names did not match between the census data and NY
@@ -565,6 +576,7 @@ the geospatial shape file that was incorporated in class for
 ENV872.Using the shape file, we selected for counties in New York State.
 Data types and variable types for the combined data were set on November
 27th, 2022.
+\end{quote}
 
 Data Information:
 \url{https://www.census.gov/library/stories/state-by-state/new-york-population-change-between-census-decade.html}
@@ -572,85 +584,33 @@ COVID-19 Variant Data \textbar{} Department of Health (ny.gov) -- (March
 1, 2020, to November 22, 2022) cb\_2018\_us\_county\_20m.shp state FIPS
 code 36
 
-\hypertarget{keywords}{%
-\subsection{Keywords}\label{keywords}}
+\textbf{Keywords}
 
 ENV872, COVID-19, COVID, virus, virus spread, New York, New York State
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0948}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.7217}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0306}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0428}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0428}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0428}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0245}}@{}}
-\caption{COVID-19 Metadata}\tabularnewline
-\toprule()
-\begin{minipage}[b]{\linewidth}\raggedright
-Variable
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Description
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Coding
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Units
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Minimum.Value
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Maximum.Value
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Missing
-\end{minipage} \\
-\midrule()
-\endfirsthead
-\toprule()
-\begin{minipage}[b]{\linewidth}\raggedright
-Variable
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Description
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Coding
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Units
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Minimum.Value
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Maximum.Value
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Missing
-\end{minipage} \\
-\midrule()
-\endhead
-County & New York counties & character & N/A & N/A & N/A & 0 \\
-pop2022 & Population in each county as of 2022 & integer & N/A & 5161 &
-2782348 & 0 \\
-area\_milessquared & Area of each county in square miles & numeric &
-miles squared & 22.6558 & 2680.379 & 0 \\
-density\_milessquared & Population density of each county in square
-miles & numeric & miles squared & 3.0052 & 75738.89 & 0 \\
-sum\_new\_positives & The new individuals who tested positive COVID-19
-on the date of data import & integer & N/A & 1054 & 2908643 & 0 \\
-sum\_cumulative\_no\_of\_positives & Running total of positive COVID-19
-tests as date of data import & integer & N/A & 432991 & 1224453000 &
-0 \\
-sum\_total\_number\_of\_tests & The number of tests performed on the
-data of data extracted by individuals in each county. This total
-includes positives, negatives, and inconclusive results & integer & N/A
-& 20261 & 60433650 & 0 \\
-sum\_cumulative\_no\_of\_tests & Running total for the number of tests
-of individuals performed in each county as of the last update to the
-dataset. This total includes positives, negatives, and inconclusive
-results & integer & N/A & 10356620 & 27893290000 & 0 \\
-median\_test\_positive & For the dates before 4/4/2022: The median
-percentage of all COVID tests reported to the New York State Department
-of Health (NYSDOH) that are positive and 4/4/2022 and forward: the
-median percentage of PCR COVID tests that are positive & character & N/A
-& N/A & N/A & 0 \\
-settlement\_type & Classification of county type & character & N/A & N/A
-& N/A & 0 \\
-\bottomrule()
-\end{longtable}
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-2}COVID-19 Metadata}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{0.4in}>{\raggedleft\arraybackslash}p{2in}>{\raggedleft\arraybackslash}p{0.4in}>{\raggedleft\arraybackslash}p{0.4in}>{\raggedright\arraybackslash}p{0.4in}>{\raggedleft\arraybackslash}p{0.4in}>{\raggedleft\arraybackslash}p{0.4in}}
+\toprule
+Variable & Description & Coding & Units & Minimum.Value & Maximum.Value & Missing\\
+\midrule
+County & New York counties & character & N/A & N/A & N/A & 0\\
+pop2022 & Population in each county as of 2022 & integer & N/A & 5161 & 2782348 & 0\\
+area\_milessquared & Area of each county in square miles & numeric & miles squared & 22.6558 & 2680.379 & 0\\
+density\_milessquared & Population density of each county in square miles & numeric & miles squared & 3.0052 & 75738.89 & 0\\
+sum\_new\_positives & The new individuals who tested positive COVID-19 on the date of data import & integer & N/A & 1054 & 2908643 & 0\\
+\addlinespace
+sum\_cumulative\_no\_of\_positives & Running total of positive COVID-19 tests as date of data import & integer & N/A & 432991 & 1224453000 & 0\\
+sum\_total\_number\_of\_tests & The number of tests performed on the data of data extracted by individuals in each county. This total includes positives, negatives, and inconclusive results & integer & N/A & 20261 & 60433650 & 0\\
+sum\_cumulative\_no\_of\_tests & Running total for the number of tests of individuals performed in each county as of the last update to the dataset. This total includes positives, negatives, and inconclusive results & integer & N/A & 10356620 & 27893290000 & 0\\
+median\_test\_positive & For the dates before 4/4/2022: The median percentage of all COVID tests reported to the New York State Department of Health (NYSDOH) that are positive and 4/4/2022 and forward: the median percentage of PCR COVID tests that are positive & character & N/A & N/A & N/A & 0\\
+settlement\_type & Classification of county type & character & N/A & N/A & N/A & 0\\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 \newpage
 
@@ -658,6 +618,7 @@ settlement\_type & Classification of county type & character & N/A & N/A
 \subsection{Exploratory Analysis and Data
 Visualization}\label{exploratory-analysis-and-data-visualization}}
 
+\begin{quote}
 The merged data set was exploring for missing values and abnormal values
 using the R functions, ``head'', ``summary'' and ``dim''. Further, to
 better understand the distribution of the variables that we use in our
@@ -676,6 +637,7 @@ evidence supported the fact that log-transformed distributions were
 still not normally distributed. We also explored and visualized the
 distribution of the absolute population and population density across
 the various settlement types using box plots.
+\end{quote}
 
 \hypertarget{tabular-exploration}{%
 \subsubsection{Tabular Exploration}\label{tabular-exploration}}
@@ -720,16 +682,16 @@ the various settlement types using box plots.
 ##     County             pop2022        area_milessquared density_permilessquared
 ##  Length:62          Min.   :   5161   Min.   :  22.66   Min.   :    3.01       
 ##  Class :character   1st Qu.:  48289   1st Qu.: 441.55   1st Qu.:   73.02       
-##  Mode  :character   Median :  86999   Median : 653.65   Median :  113.46       
+##  Mode  :character   Median :  86998   Median : 653.65   Median :  113.46       
 ##                     Mean   : 328482   Mean   : 760.09   Mean   : 3279.30       
-##                     3rd Qu.: 236911   3rd Qu.:1022.40   3rd Qu.:  418.14       
+##                     3rd Qu.: 236910   3rd Qu.:1022.40   3rd Qu.:  418.14       
 ##                     Max.   :2782348   Max.   :2680.38   Max.   :75738.89       
 ##  sum_new_positives sum_cumulative_no_of_positive sum_total_number_of_tests
 ##  Min.   :   1054   Min.   :4.330e+05             Min.   :   20261         
 ##  1st Qu.:  12905   1st Qu.:5.329e+06             1st Qu.:  240066         
 ##  Median :  23804   Median :9.156e+06             Median :  406342         
 ##  Mean   : 138799   Mean   :5.937e+07             Mean   : 2723930         
-##  3rd Qu.:  64601   3rd Qu.:2.758e+07             3rd Qu.: 1462341         
+##  3rd Qu.:  64600   3rd Qu.:2.758e+07             3rd Qu.: 1462341         
 ##  Max.   :2908643   Max.   :1.224e+09             Max.   :60433651         
 ##  sum_cumulative_no_of_tests median_test_positive settlement_type   
 ##  Min.   :1.036e+07          Length:62            Length:62         
@@ -776,6 +738,29 @@ the various settlement types using box plots.
 ## # ... with abbreviated variable names 1: Mean_Absolute_Population,
 ## #   2: Mean_Settlement_Density
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{kable}\NormalTok{(collapsed\_dat\_settlement\_types, }\AttributeTok{caption =} \StringTok{"Summary of COVID and Population Data by Settlement Types"}\NormalTok{) }\CommentTok{\#Generate Table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-3}Summary of COVID and Population Data by Settlement Types}
+\centering
+\begin{tabular}[t]{l|r|r|r|r}
+\hline
+settlement\_type & Mean\_COVID\_cases & Mean\_Tests\_Conducted & Mean\_Absolute\_Population & Mean\_Settlement\_Density\\
+\hline
+Micropolitan & 4166072 & 98127075 & 41448.36 & 64.17904\\
+\hline
+Rural & 1274503 & 34469996 & 15877.00 & 43.39223\\
+\hline
+Urban & 80411031 & 1763706740 & 438621.53 & 4495.28103\\
+\hline
+\end{tabular}
+\end{table}
 
 \hypertarget{graphical-exploration}{%
 \subsubsection{Graphical Exploration}\label{graphical-exploration}}
@@ -1018,70 +1003,159 @@ the various settlement types using box plots.
 \caption{Log of Population Density of Counties by Settlement Type}\label{fig:unnamed-chunk-13}
 \end{figure}
 
-\hypertarget{spatial-context-of-data-does-not-work}{%
-\subsubsection{Spatial Context of Data (does not
-work)}\label{spatial-context-of-data-does-not-work}}
+\hypertarget{spatial-context-of-data}{%
+\subsubsection{Spatial Context of Data}\label{spatial-context-of-data}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Read in counties shapefile into an sf dataframe, filtering for just NY counties (GURUBANDAA)}
-
-\CommentTok{\#uscounty \textless{}{-} st\_read(\textquotesingle{}./Data/Spatial\_Files/cb\_2018\_us\_county\_20m.shp\textquotesingle{}, stringsAsFactors = TRUE) \%\textgreater{}\%}
- \CommentTok{\# filter(}
-   \CommentTok{\# STATEFP == 36}
-   \CommentTok{\# ) \%\textgreater{}\%}
-  \CommentTok{\#st\_as\_sf(coords = c(\textquotesingle{}SITE\_LONGITUDE\textquotesingle{},\textquotesingle{}SITE\_LATITUDE\textquotesingle{}), crs=4269)}
-
-
-\CommentTok{\# Visualize data}
-\CommentTok{\#counties.sf \textless{}{-} ggplot(data = uscounty) +}
- \CommentTok{\# geom\_sf()}
-
-\CommentTok{\# Plot the data.}
-\CommentTok{\#ggplot(data = counties.sf) +}
- \CommentTok{\# geom\_sf()}
-
+\CommentTok{\# Map of New York County Population Levels}
+ 
 \CommentTok{\# The EPSG code of the New York counties dataset is 4269. This is a geographic coordinate reference system, so it uses angular coordinate units. This CRS (4269) is associated with the datum NAD83.}
 
-\CommentTok{\# Reveal the names of the columns}
-\CommentTok{\#colnames(combined\_dat\_ny\_covid\_pop)}
-
-\CommentTok{\# Join the flow data to our NWIS gage location spatial dataframe.}
-\CommentTok{\#combined\_dat\_join \textless{}{-} merge(x = uscounty,}
-                       \CommentTok{\#   y = combined\_dat\_ny\_covid\_pop,}
-                        \CommentTok{\#  by.x = "NAME",}
-                         \CommentTok{\# by.y = "County")}
-
-\CommentTok{\# Show the column names of the joined dataset.}
-\CommentTok{\#colnames(combined\_dat\_join)}
-
-\CommentTok{\# Show the dimensions of this joined dataset.}
-\CommentTok{\#dim(combined\_dat\_join)}
-
-\CommentTok{\# Map the population of each New York county in 2022.}
-\CommentTok{\#mapview(combined\_dat\_join, }
-       \CommentTok{\# zcol = \textquotesingle{}pop2022\textquotesingle{}, }
-       \CommentTok{\# col.regions = brewer.pal(2, \textquotesingle{}RdBu\textquotesingle{}))}
-
-\CommentTok{\# Map the settlement types of each New York county in 2022.}
-\CommentTok{\#mapview(combined\_dat\_join, }
-      \CommentTok{\#  zcol = \textquotesingle{}settlement\_type\textquotesingle{}, }
-       \CommentTok{\# col.regions = brewer.pal(2, \textquotesingle{}RdBu\textquotesingle{}))}
-
-\CommentTok{\# Map the sum of the cumulative number of tests administered in each New York county in 2022.}
-\CommentTok{\#mapview(combined\_dat\_join, }
-      \CommentTok{\#  zcol = \textquotesingle{}sum\_cumulative\_no\_of\_tests\textquotesingle{}, }
-       \CommentTok{\# col.regions = brewer.pal(2, \textquotesingle{}RdBu\textquotesingle{}))}
-
-\CommentTok{\# Map the sum of the cumulative number of positive test results in each New York county in 2022.}
-\CommentTok{\#mapview(combined\_dat\_join, }
-      \CommentTok{\#  zcol = \textquotesingle{}sum\_cumulative\_no\_of\_positive\textquotesingle{}, }
-      \CommentTok{\#  col.regions = brewer.pal(2, \textquotesingle{}RdBu\textquotesingle{}))}
+\NormalTok{uscounty }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(}\StringTok{\textquotesingle{}./Data/Spatial\_Files/cb\_2018\_us\_county\_20m.shp\textquotesingle{}}\NormalTok{, }\AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+ \FunctionTok{filter}\NormalTok{(STATEFP }\SpecialCharTok{==} \DecValTok{36}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{export-processed-data}{%
-\subsubsection{Export Processed data}\label{export-processed-data}}
+\begin{verbatim}
+## Reading layer `cb_2018_us_county_20m' from data source 
+##   `/Users/danleizou/MiltonZouKhalsa__ENV872_EDA_FinalProject3/Data/Spatial_Files/cb_2018_us_county_20m.shp' 
+##   using driver `ESRI Shapefile'
+## Simple feature collection with 3220 features and 9 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: -179.1743 ymin: 17.91377 xmax: 179.7739 ymax: 71.35256
+## Geodetic CRS:  NAD83
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Reveal the names of the columns}
+\FunctionTok{colnames}\NormalTok{(combined\_dat\_ny\_covid\_pop)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "County"                        "pop2022"                      
+##  [3] "area_milessquared"             "density_permilessquared"      
+##  [5] "sum_new_positives"             "sum_cumulative_no_of_positive"
+##  [7] "sum_total_number_of_tests"     "sum_cumulative_no_of_tests"   
+##  [9] "median_test_positive"          "settlement_type"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Join the flow data to our NWIS gage location spatial dataframe.}
+\NormalTok{combined\_dat\_join }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(}\AttributeTok{x =}\NormalTok{ uscounty,}
+                          \AttributeTok{y =}\NormalTok{ combined\_dat\_ny\_covid\_pop,}
+                          \AttributeTok{by.x =} \StringTok{"NAME"}\NormalTok{,}
+                          \AttributeTok{by.y =} \StringTok{"County"}\NormalTok{)}
+ 
+\CommentTok{\# Show the column names of the joined dataset.}
+\FunctionTok{colnames}\NormalTok{(combined\_dat\_join)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "NAME"                          "STATEFP"                      
+##  [3] "COUNTYFP"                      "COUNTYNS"                     
+##  [5] "AFFGEOID"                      "GEOID"                        
+##  [7] "LSAD"                          "ALAND"                        
+##  [9] "AWATER"                        "pop2022"                      
+## [11] "area_milessquared"             "density_permilessquared"      
+## [13] "sum_new_positives"             "sum_cumulative_no_of_positive"
+## [15] "sum_total_number_of_tests"     "sum_cumulative_no_of_tests"   
+## [17] "median_test_positive"          "settlement_type"              
+## [19] "geometry"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Show the dimensions of this joined dataset.}
+\FunctionTok{dim}\NormalTok{(combined\_dat\_join)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 61 19
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Map the population of each New York county in 2022.}
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_join, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{log}\NormalTok{(pop2022))) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}\AttributeTok{colours =} \FunctionTok{terrain.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"COVID{-}19 in New York"}\NormalTok{,}
+          \AttributeTok{subtitle =} \StringTok{"Population by County in 2022"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{fill =} \StringTok{\textquotesingle{}Log of Variable\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-15-1} \hfill{}
+
+\caption{Population of New York Counties}\label{fig:unnamed-chunk-15}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Map the settlement types of each New York county in 2022.}
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_join, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =}\NormalTok{ settlement\_type)) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"COVID{-}19 in New York"}\NormalTok{,}
+          \AttributeTok{subtitle =} \StringTok{"Settlement Types by County in 2022"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{fill =} \StringTok{\textquotesingle{}Settlement Types\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-16-1} \hfill{}
+
+\caption{Settlement Types of New York Counties}\label{fig:unnamed-chunk-16}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Map the sum of the cumulative number of tests administered in each New York county in 2022.}
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_join, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_tests))) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}\AttributeTok{colours =} \FunctionTok{terrain.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"COVID{-}19 in New York"}\NormalTok{,}
+          \AttributeTok{subtitle =} \StringTok{"Cumulative Number of Tests Administered"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{fill =} \StringTok{\textquotesingle{}Log of Variable\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-17-1} \hfill{}
+
+\caption{Cumulative Number of Tests Administered in Each New York County}\label{fig:unnamed-chunk-17}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Map the sum of the cumulative number of positive test results in each New York county in 2022.}
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_join, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive))) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}\AttributeTok{colours =} \FunctionTok{terrain.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"COVID{-}19 in New York"}\NormalTok{,}
+          \AttributeTok{subtitle =} \StringTok{"Cumulative Number of Positive Test Results in 2022"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{fill =} \StringTok{\textquotesingle{}Log of Variable\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-18-1} \hfill{}
+
+\caption{Cumulative Number of Positive Test Results in Each New York County}\label{fig:unnamed-chunk-18}
+\end{figure}
+
+\textbf{Export Processed data}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1090,7 +1164,7 @@ work)}\label{spatial-context-of-data-does-not-work}}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "C:/Users/sasho/Desktop/Environ Data Analytics/Env872 Workspace/MiltonZouKhalsa__ENV872_EDA_FinalProject"
+## [1] "/Users/danleizou/MiltonZouKhalsa__ENV872_EDA_FinalProject3"
 \end{verbatim}
 
 \begin{Shaded}
@@ -1108,8 +1182,9 @@ work)}\label{spatial-context-of-data-does-not-work}}
 \newpage
 
 \hypertarget{analysis}{%
-\section{Analysis}\label{analysis}}
+\subsection{Analysis}\label{analysis}}
 
+\begin{quote}
 As a central question of this study is ``How well does population
 density and absolute population predict COVID-19 cases?'', the predictor
 variables are population density per miles squared and absolute
@@ -1120,13 +1195,13 @@ on the primary objective of each sub-question. Settlement types are
 classified based on our definitions of rural, micropolitan, and urban
 settlement types. Our hypotheses for each study question is indicated
 below.
+\end{quote}
 
-\hypertarget{question-1-what-is-the-correlation-between-population-density-and-absolute-population-and-the-number-of-covid-19-cases-cumulative-number-of-positive-tests-across-new-york-state}{%
-\subsection{Question 1: What is the correlation between population
-density and absolute population and the number of COVID-19 cases
-(cumulative number of positive tests) across New York
-State?}\label{question-1-what-is-the-correlation-between-population-density-and-absolute-population-and-the-number-of-covid-19-cases-cumulative-number-of-positive-tests-across-new-york-state}}
+\textbf{Question 1: What is the correlation between population density
+and absolute population and the number of COVID-19 cases (cumulative
+number of positive tests) across New York State?}
 
+\begin{quote}
 Prior to the correlation analysis, the normality of absolute population,
 population density, and COVID-19 cases were examined and were determined
 to not be normally distributed (see exploratory analysis). The variables
@@ -1135,22 +1210,22 @@ distributed after a Shapiro-Wilk test of normality was performed. As
 such, a Spearman correlation analysis for non-parametric data was
 carried out. The classification of the strength of the relationship was
 determined based on the value of r which ranges from 0 to 1 where r = 0
-indicates no association and r = −1 or +1.
+indicates no association and r = -1 or +1.
+\end{quote}
 
 \hypertarget{absolute-population-and-covid-19-cases}{%
-\subsubsection{Absolute Population and COVID-19
+\paragraph{Absolute Population and COVID-19
 Cases}\label{absolute-population-and-covid-19-cases}}
 
-\hypertarget{hypotheses}{%
-\paragraph{Hypotheses}\label{hypotheses}}
+\emph{Hypotheses}
 
 Null Hypothesis: As the ranks of absolute population change, the ranks
-of the number of COVID-19 cases do not change. Alternative Hypothesis:
-As the ranks of absolute population change, the ranks of the number of
-COVID-19 cases change.
+of the number of COVID-19 cases do not change.
 
-\hypertarget{assumptions}{%
-\paragraph{Assumptions:}\label{assumptions}}
+Alternative Hypothesis: As the ranks of absolute population change, the
+ranks of the number of COVID-19 cases change.
+
+\emph{Assumptions:}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1199,7 +1274,7 @@ COVID-19 cases change.
 
 \begin{figure}
 \centering
-\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-17-1.pdf}
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-21-1.pdf}
 \caption{Correlation Between Absolute Population Across Counties and
 COVID-19 Cases}
 \end{figure}
@@ -1208,16 +1283,15 @@ COVID-19 Cases}
 \subsubsection{Population Density and COVID-19
 Cases}\label{population-density-and-covid-19-cases}}
 
-\hypertarget{hypotheses-1}{%
-\paragraph{Hypotheses:}\label{hypotheses-1}}
+\emph{Hypotheses:}
 
 Null Hypothesis: As the ranks of population density change, the ranks of
-the number of COVID-19 cases do not change. Alternative Hypothesis: As
-the ranks of population density change, the ranks of the number of
-COVID-19 cases change.
+the number of COVID-19 cases do not change.
 
-\hypertarget{assumptions-1}{%
-\paragraph{Assumptions:}\label{assumptions-1}}
+Alternative Hypothesis: As the ranks of population density change, the
+ranks of the number of COVID-19 cases change.
+
+\emph{Assumptions:}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1266,21 +1340,20 @@ COVID-19 cases change.
 
 \begin{figure}
 
-\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-19-1} \hfill{}
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-23-1} \hfill{}
 
-\caption{Correlation Between Population Densities Across Counties and COVID-19 Cases}\label{fig:unnamed-chunk-19}
+\caption{Correlation Between Population Densities Across Counties and COVID-19 Cases}\label{fig:unnamed-chunk-23}
 \end{figure}
 
-\hypertarget{question-2-what-is-the-relationship-between-the-predictor-variable-settlement-types-and-the-response-variable-cumulative-covid-19-cases}{%
-\subsection{Question 2: What is the relationship between the predictor
+\textbf{Question 2: What is the relationship between the predictor
 variable: settlement types and the response variable: cumulative
-COVID-19
-cases?}\label{question-2-what-is-the-relationship-between-the-predictor-variable-settlement-types-and-the-response-variable-cumulative-covid-19-cases}}
+COVID-19 cases?}
 
 \hypertarget{negative-binomial-regression}{%
-\subsubsection{Negative Binomial
+\paragraph{Negative Binomial
 Regression}\label{negative-binomial-regression}}
 
+\begin{quote}
 In addition to the correlation analysis, we carried out a negative
 binomial regression to further understand the relationship between
 settlements types (determined by levels of absolute population) and
@@ -1294,17 +1367,17 @@ carried out a Chi-Square Goodness of Fit test for our negative binomial
 regression model with residual deviance of 75.355 on 59 degrees of
 freedom and the p-value obtained was 0.07. This means that the evidence
 is more supportive of the fact that the model is a good fit.
+\end{quote}
 
-\hypertarget{hypotheses-2}{%
-\paragraph{Hypotheses:}\label{hypotheses-2}}
+\emph{Hypotheses:}
 
 Null Hypothesis: There is no trend between the predictor variable
 (settlement types) and outcome variable (cumulative COVID-19 cases).
+
 Alternative Hypothesis: There is a trend between the response
 (settlement types) and outcome variables (cumulative COVID-19 cases).
 
-\hypertarget{assumptions-2}{%
-\paragraph{Assumptions:}\label{assumptions-2}}
+\emph{Assumptions:}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1350,7 +1423,7 @@ Alternative Hypothesis: There is a trend between the response
 ## Residual deviance:  75.366  on 59  degrees of freedom
 ## AIC: 2273.8
 ## 
-## Number of Fisher Scoring iterations: 1
+## Number of Fisher Scoring iterations: 3
 ## 
 ## 
 ##               Theta:  0.672 
@@ -1366,10 +1439,12 @@ Alternative Hypothesis: There is a trend between the response
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-24-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Test of Fitness}
+
 \FunctionTok{pchisq}\NormalTok{(}\AttributeTok{q=}\NormalTok{modelnb}\SpecialCharTok{$}\NormalTok{deviance, }\AttributeTok{df=}\NormalTok{modelnb}\SpecialCharTok{$}\NormalTok{df.residual, }
 \AttributeTok{lower.tail=}\ConstantTok{FALSE}\NormalTok{)  }\CommentTok{\#Check model fit}
 \end{Highlighting}
@@ -1420,11 +1495,10 @@ Alternative Hypothesis: There is a trend between the response
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{question-3-what-is-the-correlation-between-absolute-population-and-population-density-and-the-number-of-covid-19-tests-done}{%
-\subsection{Question 3: What is the correlation between absolute
-population and population density and the number of COVID-19 tests
-done?}\label{question-3-what-is-the-correlation-between-absolute-population-and-population-density-and-the-number-of-covid-19-tests-done}}
+\textbf{Question 3: What is the correlation between absolute population
+and population density and the number of COVID-19 tests done?}
 
+\begin{quote}
 Similar to question 1, prior to the correlation analysis, the normality
 of absolute population, population density, and COVID-19 cases were
 examined and were determined to not be normally distributed (see
@@ -1433,22 +1507,22 @@ showed to still not be normally distributed after a Shapiro-Wilk test of
 normality was performed. As such, a Spearman correlation analysis for
 non-parametric data was carried out. The classification of the strength
 of the relationship was determined based on the value of r which ranges
-from 0 to 1 where r = 0 indicates no association and r = −1 or +1.
+from 0 to 1 where r = 0 indicates no association and r = -1 or +1.
+\end{quote}
 
 \hypertarget{absolute-population-and-covid-19-cases-1}{%
-\subsubsection{Absolute Population and COVID-19
+\paragraph{Absolute Population and COVID-19
 Cases}\label{absolute-population-and-covid-19-cases-1}}
 
-\hypertarget{hypotheses-3}{%
-\paragraph{Hypotheses:}\label{hypotheses-3}}
+\emph{Hypotheses:}
 
 Null Hypothesis: As the ranks of absolute population change, the ranks
-of the number of COVID-19 tests conducted do not change. Alternative
-Hypothesis: As the ranks of absolute population change, the ranks of the
-number of COVID-19 tests conducted change.
+of the number of COVID-19 tests conducted do not change.
 
-\hypertarget{assumptions-3}{%
-\paragraph{Assumptions:}\label{assumptions-3}}
+Alternative Hypothesis: As the ranks of absolute population change, the
+ranks of the number of COVID-19 tests conducted change.
+
+\emph{Assumptions}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1497,25 +1571,24 @@ number of COVID-19 tests conducted change.
 
 \begin{figure}
 
-\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-22-1} \hfill{}
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-26-1} \hfill{}
 
-\caption{Correlation Between Absolute Population Across Counties and COVID-19 Tests Conducted}\label{fig:unnamed-chunk-22}
+\caption{Correlation Between Absolute Population Across Counties and COVID-19 Tests Conducted}\label{fig:unnamed-chunk-26}
 \end{figure}
 
 \hypertarget{population-density-and-covid-19-cases-1}{%
-\subsubsection{Population Density and COVID-19
+\paragraph{Population Density and COVID-19
 Cases}\label{population-density-and-covid-19-cases-1}}
 
-\hypertarget{hypotheses-4}{%
-\paragraph{Hypotheses:}\label{hypotheses-4}}
+\emph{Hypotheses:}
 
 Null Hypothesis: As the ranks of population density change, the ranks of
-the number of COVID-19 tests conducted do not change. Alternative
-Hypothesis: As the ranks of population density change, the ranks of the
-number of COVID-19 tests conducted change.
+the number of COVID-19 tests conducted do not change.
 
-\hypertarget{assumptions-4}{%
-\paragraph{Assumptions:}\label{assumptions-4}}
+Alternative Hypothesis: As the ranks of population density change, the
+ranks of the number of COVID-19 tests conducted change.
+
+\emph{Assumptions:}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1564,18 +1637,16 @@ number of COVID-19 tests conducted change.
 
 \begin{figure}
 
-\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-24-1} \hfill{}
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-28-1} \hfill{}
 
-\caption{Correlation Between Absolute Population Densities Across Counties and COVID-19 Tests Conducted}\label{fig:unnamed-chunk-24}
+\caption{Correlation Between Absolute Population Densities Across Counties and COVID-19 Tests Conducted}\label{fig:unnamed-chunk-28}
 \end{figure}
 
-\hypertarget{question-3b-does-the-stronger-correlated-relationship-vary-among-settlement-types}{%
-\subsubsection{Question 3b: Does the stronger correlated relationship
-vary among settlement
-types?}\label{question-3b-does-the-stronger-correlated-relationship-vary-among-settlement-types}}
+\textbf{Question 3b: Does the stronger correlated relationship vary
+among settlement types?}
 
 \hypertarget{absolute-population-and-settlement-types}{%
-\subsubsection{Absolute Population and Settlement
+\paragraph{Absolute Population and Settlement
 Types}\label{absolute-population-and-settlement-types}}
 
 \begin{Shaded}
@@ -1662,7 +1733,7 @@ Types}\label{absolute-population-and-settlement-types}}
 \end{verbatim}
 
 \hypertarget{visualization-of-3b}{%
-\subsubsection{Visualization of 3b}\label{visualization-of-3b}}
+\paragraph{Visualization of 3b}\label{visualization-of-3b}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1676,19 +1747,20 @@ Types}\label{absolute-population-and-settlement-types}}
 
 \begin{figure}
 
-\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-26-1} \hfill{}
+\includegraphics{EDA_Final_Group_Project_files/figure-latex/unnamed-chunk-30-1} \hfill{}
 
-\caption{Log of Cumulative COVID-19 Cases Across Settlement Types}\label{fig:unnamed-chunk-26}
+\caption{Log of Cumulative COVID-19 Cases Across Settlement Types}\label{fig:unnamed-chunk-30}
 \end{figure}
 
 \newpage
 
 \hypertarget{summary-and-conclusions}{%
-\section{Summary and Conclusions}\label{summary-and-conclusions}}
+\subsection{Summary and Conclusions}\label{summary-and-conclusions}}
 
 \hypertarget{general-overview-of-data}{%
-\subsection{General Overview of Data}\label{general-overview-of-data}}
+\paragraph{General Overview of Data}\label{general-overview-of-data}}
 
+\begin{quote}
 The most populous county in New York State according to the information
 we obtained from the US Census Bureau is Kings County which has a
 population of over 2.7 million people. Meanwhile, the least populous
@@ -1697,9 +1769,10 @@ Kings County have the most residents in the state, New York City was the
 most densely populated county - with 75,739 residents per squared miles.
 In addition to being the least populated county, Hamilton was the least
 dense of the 62 counties in New York State.
+\end{quote}
 
 \hypertarget{correlation-between-absolute-population-and-population-density-with-covid-19-cases}{%
-\subsection{Correlation between Absolute Population and Population
+\paragraph{Correlation between Absolute Population and Population
 Density with COVID-19
 Cases}\label{correlation-between-absolute-population-and-population-density-with-covid-19-cases}}
 
@@ -1725,7 +1798,7 @@ absolute population.
 \end{quote}
 
 \hypertarget{association-between-covid-19-cases-and-settlement-types}{%
-\subsection{Association between COVID-19 Cases and Settlement
+\paragraph{Association between COVID-19 Cases and Settlement
 Types}\label{association-between-covid-19-cases-and-settlement-types}}
 
 \begin{quote}
@@ -1734,7 +1807,7 @@ predictor variable (settlement types) and response variable (cumulative
 COVID-19 cases). We did not control for potential confounding factors
 which limits the strength of the conclusions we are able to draw from
 this analysis. After performing a negative binomial regression, we
-observed that the variable level, Rural, has a coefficient of -1.1844
+observed that the variable level, rural, has a coefficient of -1.1844
 which is associated with a p-value of 0.127. This means that when
 compared to the reference settlement level, micropolitan, the difference
 in the logs of the expected counts is expected to be 1.1844 lower for
@@ -1749,7 +1822,7 @@ statistically significant.
 \end{quote}
 
 \hypertarget{correlation-between-absolute-population-and-population-density-with-number-of-covid-19-tests-conducted}{%
-\subsection{Correlation between Absolute Population and Population
+\paragraph{Correlation between Absolute Population and Population
 Density with Number of COVID-19 Tests
 Conducted}\label{correlation-between-absolute-population-and-population-density-with-number-of-covid-19-tests-conducted}}
 
@@ -1762,7 +1835,7 @@ population and population density we found that both had a p-value of
 2.2e-16, indicating that the correlated relationship was statistically
 significant.Therefore, we have sufficient evidence to reject both null
 hypotheses that as ranks of absolute populationand population density
-change, the the ranks of the number of COVID-19 testsconducted do not
+change, the the ranks of the number of COVID-19 tests conducted do not
 change. Instead, we accept our alternative hypotheses that as ranks of
 absolute population and population density change, the ranks of the
 number of COVID-19 tests conducted does change. This is also shown in
@@ -1780,12 +1853,12 @@ performed the Spearman rank correlation test on all three settlement
 types. Urban settlements had a p-value of 2.2e-16 and an R-squared value
 of 0.96, micropolitan settlements had a p-value of 0.002 and an
 R-squared value of 0.77, and rural settlements had a p-value of 1 and an
-R-squared value of 0.5. We reject the null hypotheses to accept the
-alternative hypotheses for urban and micropolitan settlements, but
-accept the null hypothesis for rural settlements. The correlation is
-strongest with urban settlements. However, we do acknowledge that the
-rural settlements only had 3 data points, which is much fewer than the
-amount of data of micropolitan and urban settlements.
+R-squared value of 0.5. Two of the p-values show that the correlated
+relationships are significant, and rural didn't have a significant
+correlated relationship. The correlation is strongest with urban
+settlements. However, we do acknowledge that the rural settlements only
+had 3 data points, which is much fewer than the amount of data of
+micropolitan and urban settlements.
 \end{quote}
 
 \hypertarget{conclusion}{%
@@ -1796,15 +1869,17 @@ In conclusion, we do see a strong correlation between both absolute
 population and population density and the number of COVID-19 cases in
 New York, as well as the relationship between both absolute population
 and population density and the number of COVID-19 tests conducted in New
-York. In both cases, the absolute population correlation was the
-stronger of the two. There is also a strong correlation between absolute
-population and urban settlements.
+York. The absolute population correlation to the number of COVID-19
+tests conducted was the stronger relationship. It is important for us to
+know the correlation between COVID-19 cases and settlement type so we
+can be better informed about what factors influence the spread of
+infectious diseases for the future.
 \end{quote}
 
 \newpage
 
 \hypertarget{references}{%
-\section{References}\label{references}}
+\subsection{References}\label{references}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
