@@ -125,6 +125,7 @@ library (corrplot)
 library(RColorBrewer)
 library(knitr)
 library(MASS)
+library(kableExtra)
 
 #Set theme
 
@@ -194,7 +195,17 @@ ENV872, COVID-19, COVID, virus, virus spread, New York, New York State
 
 meta_data_tab <- read.csv("./Data/Meta_Data/meta_data_table.csv")
 
-kable(meta_data_tab, caption = "COVID-19 Metadata")
+kable(meta_data_tab, col.names = c("Variable", "Description", "Coding", "Units", "Minimum.Value", "Maximum.Value", "Missing"),
+                      caption="COVID-19 Metadata", row.names=FALSE, align=c("l",rep("r",3)),
+                      format="latex", booktabs=TRUE)  %>%
+      kable_styling(latex_options="scale_down") %>%
+      column_spec(1,width = "0.4in") %>%
+      column_spec(2,width = "2in") %>%
+      column_spec(3,width = "0.4in") %>%
+      column_spec(4,width = "0.4in") %>%
+      column_spec(5,width = "0.4in") %>%
+      column_spec(6,width = "0.4in") %>%
+      column_spec(7,width = "0.4in")
 
 ```
 
@@ -225,7 +236,7 @@ collapsed_dat_settlement_types <- combined_dat_ny_covid_pop %>%
 
 collapsed_dat_settlement_types #View table
 
-kable(collapsed_dat_settlement_type, caption = "Summary of COVID and Population Data by Settlement Types") #Generate Table
+kable(collapsed_dat_settlement_types, caption = "Summary of COVID and Population Data by Settlement Types") #Generate Table
 
 ```
 
@@ -351,65 +362,78 @@ ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type, y= log(pop2022)
 ```
 
 
-### Spatial Context of Data (does not work)
+### Spatial Context of Data
 
 ```{r, message=FALSE, warning=FALSE}
 
-
-# Read in counties shapefile into an sf dataframe, filtering for just NY counties (GURUBANDAA)
-
-#uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp', stringsAsFactors = TRUE) %>%
- # filter(
-   # STATEFP == 36
-   # ) %>%
-  #st_as_sf(coords = c('SITE_LONGITUDE','SITE_LATITUDE'), crs=4269)
-
-
-# Visualize data
-#counties.sf <- ggplot(data = uscounty) +
- # geom_sf()
-
-# Plot the data.
-#ggplot(data = counties.sf) +
- # geom_sf()
-
+# Map of New York County Population Levels
+ 
 # The EPSG code of the New York counties dataset is 4269. This is a geographic coordinate reference system, so it uses angular coordinate units. This CRS (4269) is associated with the datum NAD83.
 
+uscounty <- st_read('./Data/Spatial_Files/cb_2018_us_county_20m.shp', stringsAsFactors = TRUE) %>%
+ filter(STATEFP == 36)
+ 
 # Reveal the names of the columns
-#colnames(combined_dat_ny_covid_pop)
-
+colnames(combined_dat_ny_covid_pop)
+ 
 # Join the flow data to our NWIS gage location spatial dataframe.
-#combined_dat_join <- merge(x = uscounty,
-                       #   y = combined_dat_ny_covid_pop,
-                        #  by.x = "NAME",
-                         # by.y = "County")
-
+combined_dat_join <- merge(x = uscounty,
+                          y = combined_dat_ny_covid_pop,
+                          by.x = "NAME",
+                          by.y = "County")
+ 
 # Show the column names of the joined dataset.
-#colnames(combined_dat_join)
-
+colnames(combined_dat_join)
+ 
 # Show the dimensions of this joined dataset.
-#dim(combined_dat_join)
+dim(combined_dat_join)
+
+```
+
+```{r, message=FALSE, warning=FALSE, fig.cap= "Population of New York Counties", fig.align='left', fig.height= 2.5 }
 
 # Map the population of each New York county in 2022.
-#mapview(combined_dat_join, 
-       # zcol = 'pop2022', 
-       # col.regions = brewer.pal(2, 'RdBu'))
+ggplot() +
+  geom_sf(data = combined_dat_join, aes(fill = log(pop2022))) +
+  scale_fill_gradientn(colours = terrain.colors(10)) +
+  ggtitle("COVID-19 in New York",
+          subtitle = "Population by County in 2022") +
+  labs(fill = 'Log of Variable')
 
+```
+
+```{r, message=FALSE, warning=FALSE, fig.cap= "Settlement Types of New York Counties", fig.align='left', fig.height= 2.5 }
+ 
 # Map the settlement types of each New York county in 2022.
-#mapview(combined_dat_join, 
-      #  zcol = 'settlement_type', 
-       # col.regions = brewer.pal(2, 'RdBu'))
+ggplot() +
+  geom_sf(data = combined_dat_join, aes(fill = settlement_type)) +
+  ggtitle("COVID-19 in New York",
+          subtitle = "Settlement Types by County in 2022") +
+  labs(fill = 'Settlement Types')
 
+```
+
+```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Tests Administered in Each New York County", fig.align='left', fig.height= 2.5 }
+ 
 # Map the sum of the cumulative number of tests administered in each New York county in 2022.
-#mapview(combined_dat_join, 
-      #  zcol = 'sum_cumulative_no_of_tests', 
-       # col.regions = brewer.pal(2, 'RdBu'))
+ggplot() +
+  geom_sf(data = combined_dat_join, aes(fill = log(sum_cumulative_no_of_tests))) +
+  scale_fill_gradientn(colours = terrain.colors(10)) +
+  ggtitle("COVID-19 in New York",
+          subtitle = "Cumulative Number of Tests Administered") +
+  labs(fill = 'Log of Variable')
 
+```
+
+```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Positive Test Results in Each New York County", fig.align='left', fig.height= 2.5 }
+ 
 # Map the sum of the cumulative number of positive test results in each New York county in 2022.
-#mapview(combined_dat_join, 
-      #  zcol = 'sum_cumulative_no_of_positive', 
-      #  col.regions = brewer.pal(2, 'RdBu'))
-
+ggplot() +
+  geom_sf(data = combined_dat_join, aes(fill = log(sum_cumulative_no_of_positive))) +
+  scale_fill_gradientn(colours = terrain.colors(10)) +
+  ggtitle("COVID-19 in New York",
+          subtitle = "Cumulative Number of Positive Test Results in 2022") +
+  labs(fill = 'Log of Variable')
 
 ```
 
