@@ -195,18 +195,7 @@ ENV872, COVID-19, COVID, virus, virus spread, New York, New York State
 
 meta_data_tab <- read.csv("./Data/Meta_Data/meta_data_table.csv")
 
-kable(meta_data_tab, col.names = c("Variable", "Description", "Coding", "Units", "Minimum.Value", "Maximum.Value", "Missing"),
-                      caption="COVID-19 Metadata", row.names=FALSE, align=c("l",rep("r",3)),
-                      format="latex", booktabs=TRUE)  %>%
-      kable_styling(full_width = TRUE)
-      column_spec(1,width = "0.4in") %>%
-      column_spec(2,width = "2in") %>%
-      column_spec(3,width = "0.4in") %>%
-      column_spec(4,width = "0.4in") %>%
-      column_spec(5,width = "0.4in") %>%
-      column_spec(6,width = "0.4in") %>%
-      column_spec(7,width = "0.4in")
-
+print(meta_data_tab)
 ```
 
 \newpage
@@ -234,10 +223,7 @@ collapsed_dat_settlement_types <- combined_dat_ny_covid_pop %>%
             Mean_Absolute_Population = mean(pop2022),
             Mean_Settlement_Density = mean (density_permilessquared))
 
-collapsed_dat_settlement_types #View table
-
-kable(collapsed_dat_settlement_types, caption = "Summary of COVID and Population Data by Settlement Types") %>%
-  kable_styling(latex_options="full_width = TRUE") #Generate Table
+print(collapsed_dat_settlement_types) #View table
 
 ```
 
