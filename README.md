@@ -25,7 +25,7 @@ Affiliations: Duke University Nicholas School of the Environment
 
 Data Information:
 https://www.census.gov/library/stories/state-by-state/new-york-population-change-between-census-decade.html
-COVID-19 Variant Data | Department of Health (ny.gov) – (March 1, 2020,  to November 22, 2022)
+https://coronavirus.health.ny.gov/covid-19-variant-data – (March 1, 2020,  to November 22, 2022)
 cb_2018_us_county_20m.shp state FIPS code 36
 
 ## Keywords
@@ -44,14 +44,15 @@ Our main project folder is named "MiltonZouKhalsa__ENV872_EDA_FinalProject."  Wi
 
 Processed_Data: "Combined_NY_COVID_Pop.csv"
 Columns:
-"County": New York counties, class factor
+"County": New York counties, class character
 "pop2022": population in 2022, class integer
-"area_milessquared": area in square miles, class numeral
-"density_permilessquared": population density in square miles, class numeral
-"sum_new_positives": sum of new positive COVID-19 cases, class numeral
-"sum_cumulative_no_of_positives": sum of cumulative number of positive COVID-19 cases, class numeral "sum_total_number_of_tests": sum of total number of COVID-19 tests administered, class numeral
-"sum_cumulative_no_of_tests": sum of cumulative number of COVID-19 tests administered, class numeral
-"median_test_positive": median number of positive COVID-19 test results, class numeral
+"area_milessquared": area in square miles, class numeric
+"density_permilessquared": population density in square miles, class numeric
+"sum_new_positives": sum of new positive COVID-19 cases, class integer
+"sum_cumulative_no_of_positives": sum of cumulative number of positive COVID-19 cases, class integer 
+"sum_total_number_of_tests": sum of total number of COVID-19 tests administered, class integer
+"sum_cumulative_no_of_tests": sum of cumulative number of COVID-19 tests administered, class integer
+"median_test_positive": median number of positive COVID-19 test results, class character
 "settlement_type": classification of environment ("Urban", "Micropolitan", or "Rural"), class character
 
 
