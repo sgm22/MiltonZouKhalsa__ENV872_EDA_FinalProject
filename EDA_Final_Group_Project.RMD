@@ -728,7 +728,7 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_n
 
 #### General Overview of Data
 
-> The most populous county in New York State according to the information we obtained from the US Census Bureau is Kings County which has a population of over 2.7 million people. Meanwhile, the least populous county was Hamilton county with a little over 5000 residents. Despite Kings County have the most residents in the state, New York City was the most densely populated county - with 75,739 residents per squared miles. In addition to being the least populated county, Hamilton was the least dense of the 62 counties in New York State.
+>The most populous county in New York State according to the information we obtained from the US Census Bureau is Kings County which has a population of over 2.7 million people. Meanwhile, the least populous county was Hamilton county with a little over 5000 residents. Despite Kings County have the most residents in the state, New York City was the most densely populated county - with 75,739 residents per squared miles. In addition to being the least populated county, Hamilton was the least dense of the 62 counties in New York State.
   
 #### Correlation between Absolute Population and Population Density with COVID-19 Cases
 
@@ -750,7 +750,7 @@ strong correlation, but it is stronger with absolute population.
 variable (settlement types) and response variable (cumulative COVID-19 cases). 
 We did not control for potential confounding factors which limits the strength of
 the conclusions we are able to draw from this analysis. After performing a negative
-binomial regression, we observed that the variable level, Rural, has a coefficient 
+binomial regression, we observed that the variable level, rural, has a coefficient 
 of -1.1844 which is associated with a p-value of 0.127. This means that when compared
 to the reference settlement level, micropolitan, the difference in the logs of the 
 expected counts is expected to be 1.1844 lower for rural when compared to micropolitan.
@@ -770,7 +770,7 @@ correlation test with both absolute population and population density we found
 that both had a p-value of 2.2e-16, indicating that the correlated relationship 
 was statistically significant.Therefore, we have sufficient evidence to reject 
 both null hypotheses that as ranks of absolute populationand population density 
-change, the the ranks of the number of COVID-19 testsconducted do not change.
+change, the the ranks of the number of COVID-19 tests conducted do not change.
 Instead, we accept our alternative hypotheses that as ranks of absolute population
 and population density change, the ranks of the number of COVID-19 tests 
 conducted does change. This is also shown in our visualized plots, 
@@ -778,27 +778,16 @@ with the absolute population plot having an R-squared
 value of 0.97 and the population density plot having an R-squared value of 0.86.
 Both show a strong correlation, but it is stronger with absolute population.
 
->After determining that the correlation between absolute population and number 
-of COVID-19 tests conducted is stronger, we examined within those parameters to
-see if this correlation varies among settlement types. We performed the Spearman
-rank correlation test on all three settlement types. Urban settlements had a
-p-value of 2.2e-16 and an R-squared value of 0.96, micropolitan settlements had 
-a p-value of 0.002 and an R-squared value of 0.77, and rural settlements had a
-p-value of 1 and an R-squared value of 0.5. We reject the null hypotheses to 
-accept the alternative hypotheses for urban and micropolitan settlements, but 
-accept the null hypothesis for rural settlements. The correlation is strongest 
-with urban settlements. However, we do acknowledge that the rural settlements 
-only had 3 data points, which is much fewer than the amount of data of micropolitan 
-and urban settlements.
+>After determining that the correlation between absolute population and number of COVID-19 tests conducted is stronger, we examined within those parameters to see if this correlation varies among settlement types. We performed the Spearman rank correlation test on all three settlement types. Urban settlements had a p-value of 2.2e-16 and an R-squared value of 0.96, micropolitan settlements had a p-value of 0.002 and an R-squared value of 0.77, and rural settlements had a p-value of 1 and an R-squared value of 0.5. Two of the p-values show that the correlated relationships are significant, and rural didn’t have a significant correlated relationship. The correlation is strongest with urban settlements. However, we do acknowledge that the rural settlements only had 3 data points, which is much fewer than the amount of data of micropolitan and urban settlements.
 
 ## Conclusion
 
 >In conclusion, we do see a strong correlation between both absolute population
 and population density and the number of COVID-19 cases in New York, as well as
 the relationship between both absolute population and population density and 
-the number of COVID-19 tests conducted in New York. In both cases, the absolute
-population correlation was the stronger of the two. There is also a strong
-correlation between absolute population and urban settlements.
+the number of COVID-19 tests conducted in New York. The absolute
+population correlation to the number of COVID-19 tests conducted was the stronger relationship. There is also a strong
+correlation between absolute population and urban settlements. It is important for us to know the correlation between COVID-19 cases and settlement type so we can be better informed about what factors influence the spread of infectious diseases for the future. 
 
 \newpage
 
