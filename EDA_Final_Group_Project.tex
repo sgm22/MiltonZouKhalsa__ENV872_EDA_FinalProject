@@ -234,326 +234,6 @@ the New York Department of Health from March 1, 2020 to November 22,
 2022.
 \end{quote}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# Set working directory \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
-
-\FunctionTok{getwd}\NormalTok{() }\CommentTok{\#Check working directory}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "/Users/danleizou/MiltonZouKhalsa__ENV872_EDA_FinalProject3"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#Load packages}
-
-\FunctionTok{library}\NormalTok{(rvest)}
-\FunctionTok{library}\NormalTok{(tidyverse)}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{library}\NormalTok{(ggpubr)}
-\FunctionTok{library}\NormalTok{ (lubridate)}
-\FunctionTok{library}\NormalTok{ (dplyr)}
-\FunctionTok{library}\NormalTok{(sf)}
-\FunctionTok{library}\NormalTok{ (leaflet)}
-\FunctionTok{library}\NormalTok{(mapview)}
-\FunctionTok{library}\NormalTok{(AER)}
-\FunctionTok{library}\NormalTok{ (corrplot)}
-\FunctionTok{library}\NormalTok{(RColorBrewer)}
-\FunctionTok{library}\NormalTok{(knitr)}
-\FunctionTok{library}\NormalTok{(MASS)}
-\FunctionTok{library}\NormalTok{(kableExtra)}
-
-\CommentTok{\#Set theme}
-
-\NormalTok{my\_theme }\OtherTok{\textless{}{-}} \FunctionTok{theme\_bw}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{12}\NormalTok{) }\SpecialCharTok{+} 
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"black"}\NormalTok{), }
-      \AttributeTok{legend.position =} \StringTok{"top"}\NormalTok{, }\AttributeTok{legend.justification =} \StringTok{"center"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
-\FunctionTok{theme\_set}\NormalTok{(my\_theme)}
-
-
-\CommentTok{\#Import NY State county level COVID data (March 1, 2020 to November 22, 2022)}
-\CommentTok{\#from NY Health.}
-
-\NormalTok{ny\_covid\_dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"./Data/Raw\_Data/NY\_COVID\_County\_Level.csv"}\NormalTok{)}
-
-\NormalTok{ny\_covid\_dat }\CommentTok{\#View Data}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##              County sum_new_positives sum_cumulative_no_of_positive
-## 1            Albany             75450                      31527049
-## 2          Allegany             10396                       4540770
-## 3             Bronx            480247                     214795050
-## 4            Broome             56238                      23809846
-## 5    Capital Region            273064                     109650058
-## 6       Cattaraugus             18648                       7739886
-## 7            Cayuga             19636                       8258733
-## 8  Central New York            219659                      88806060
-## 9        Chautauqua             28390                      11963811
-## 10          Chemung             25750                      10781572
-## 11         Chenango             11387                       4672090
-## 12          Clinton             21495                       7897140
-## 13         Columbia             13108                       5333242
-## 14         Cortland             12837                       5327906
-## 15         Delaware              9685                       3752771
-## 16         Dutchess             79872                      34848939
-## 17             Erie            259074                     110683234
-## 18            Essex              7336                       2731432
-## 19     Finger Lakes            291710                     125914355
-## 20         Franklin             11662                       4435661
-## 21           Fulton             15935                       6306546
-## 22          Genesee             16033                       6962833
-## 23           Greene             10413                       4408700
-## 24         Hamilton              1054                        432991
-## 25         Herkimer             16859                       7020942
-## 26        Jefferson             25649                       9657042
-## 27            Kings            860573                     362966136
-## 28            Lewis              7069                       3184476
-## 29       Livingston             13875                       5860772
-## 30      Long Island           1047899                     463920471
-## 31          Madison             16241                       6602449
-## 32       Mid-Hudson            732389                     333323687
-## 33    Mohawk Valley            132784                      55129169
-## 34           Monroe            184340                      81266752
-## 35       Montgomery             14485                       5881959
-## 36           Nassau            515433                     225331004
-## 37         New York            553801                     212308156
-## 38    New York City           2908643                    1224453265
-## 39          Niagara             57583                      24783016
-## 40    North Country             99779                      38597015
-## 41           Oneida             66461                      28508629
-## 42         Onondaga            137709                      55993243
-## 43          Ontario             25002                      10107862
-## 44           Orange            131134                      58559762
-## 45          Orleans             10149                       4331454
-## 46           Oswego             33236                      12623729
-## 47           Otsego             12728                       4951672
-## 48           Putnam             29694                      12765002
-## 49           Queens            813384                     345088691
-## 50       Rensselaer             40127                      15928044
-## 51         Richmond            200638                      89295232
-## 52         Rockland            112172                      53675641
-## 53         Saratoga             59019                      22929569
-## 54      Schenectady             41888                      17263319
-## 55        Schoharie              6316                       2459421
-## 56         Schuyler              4209                       1680264
-## 57           Seneca              7336                       2910342
-## 58    Southern Tier            170688                      68994999
-## 59        STATEWIDE           6250706                    2668499796
-## 60          Steuben             24398                      10006178
-## 61     St. Lawrence             25514                      10258273
-## 62          Suffolk            532466                     238589467
-## 63         Sullivan             23209                       9439839
-## 64            Tioga             13520                       5420118
-## 65         Tompkins             25501                       8872160
-## 66           Ulster             40739                      17116464
-## 67           Warren             18009                       6588480
-## 68       Washington             15050                       5671655
-## 69            Wayne             21009                       8496183
-## 70      Westchester            315569                     146918040
-## 71 Western New York            374091                     159710717
-## 72          Wyoming              9682                       4267904
-## 73            Yates              4284                       1710253
-##    sum_total_number_of_tests sum_cumulative_no_of_tests median_test_positive
-## 1                    1402792                  718954664                2.43%
-## 2                     248725                  135187844                1.67%
-## 3                    8847438                 4167554932                2.62%
-## 4                    1183008                  600726726                2.85%
-## 5                    5255122                 2645289344                2.42%
-## 6                     307715                  159238111                2.01%
-## 7                     395524                  199795061                2.05%
-## 8                    4404505                 2280257150                2.70%
-## 9                     529410                  284656873               17.24%
-## 10                    482115                  240229506                2.80%
-## 11                    237180                  120749908                2.41%
-## 12                    405091                  204944024               16.67%
-## 13                    253036                  134198616                1.94%
-## 14                    306593                  162613835                2.11%
-## 15                    200498                  101931557                2.24%
-## 16                   1482191                  765609824                2.30%
-## 17                   4230697                 2209228099                2.52%
-## 18                    165134                   82082708                1.87%
-## 19                   5627645                 2925577026                3.11%
-## 20                    217883                  104817335               19.51%
-## 21                    230615                  114053436                1.69%
-## 22                    274587                  141618902               20.54%
-## 23                    181361                   91910867                2.54%
-## 24                     20261                   10356622                0.00%
-## 25                    325883                  165269120                1.80%
-## 26                    407594                  191971766                2.41%
-## 27                  18713833                 8370878686                2.45%
-## 28                    104111                   52934295               17.14%
-## 29                    285393                  152289219               21.57%
-## 30                  16896935                 8450017694                3.21%
-## 31                    372206                  191580055                1.89%
-## 32                  13407104                 6513198457                3.08%
-## 33                   2740911                 1402887769                2.05%
-## 34                   3656142                 1917145805                3.25%
-## 35                    223329                  114646701               17.02%
-## 36                   8400598                 4188172601                2.99%
-## 37                  14450368                 6672796856                2.09%
-## 38                  60433651                27893288263                2.51%
-## 39                    904150                  468974555               20.69%
-## 40                   1940611                  970267992                2.58%
-## 41                   1527340                  790655393                2.04%
-## 42                   2797843                 1457537033                2.87%
-## 43                    480819                  244314298                2.55%
-## 44                   1968284                  904265527                3.72%
-## 45                    158360                   79497423               19.67%
-## 46                    532339                  268731166                1.81%
-## 47                    312369                  158059656                2.10%
-## 48                    490627                  243060578                2.59%
-## 49                  14735060                 6902671989                2.49%
-## 50                    875724                  447596670               21.30%
-## 51                   3686952                 1779385800                3.25%
-## 52                   2358136                 1029309794                3.01%
-## 53                   1076644                  532008522                2.44%
-## 54                    837442                  420680184               23.60%
-## 55                    121375                   60203463               18.29%
-## 56                     99602                   47465529                1.82%
-## 57                    139448                   69545097               19.57%
-## 58                   5973213                 3285431777                2.02%
-## 59                 122900394                59623500954                3.05%
-## 60                    476678                  233587858                2.50%
-## 61                    620537                  323161242                2.05%
-## 62                   8496337                 4261845093                3.43%
-## 63                    377092                  162432097                3.13%
-## 64                    234100                  115425950                2.59%
-## 65                   3060032                 1825314743               10.08%
-## 66                    867586                  439724686                2.64%
-## 67                    339906                  161155740                2.31%
-## 68                    288217                  138784081                2.00%
-## 69                    383003                  193346376                2.53%
-## 70                   5863188                 2968795951                2.92%
-## 71                   6220697                 3257285482                2.22%
-## 72                    158197                   82232070               18.97%
-## 73                     91696                   45587836               14.29%
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#Import NY population data (2022)}
-
-\NormalTok{ny\_pop\_dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"./Data/Raw\_Data/NY\_County\_Level\_Population\_Data.csv"}
-\NormalTok{                       ,}\AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{)}
-
-\NormalTok{ny\_pop\_dat}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##           County pop2022 area_milessquared density_permilessquared
-## 1          Kings 2782348           69.8126              39854.5289
-## 2         Queens 2440412          108.7681              22436.8367
-## 3  New York City 1715927           22.6558              75738.8946
-## 4        Suffolk 1532434          911.7219               1680.8130
-## 5          Bronx 1490164           42.0506              35437.3653
-## 6         Nassau 1407022          284.8100               4940.2121
-## 7    Westchester 1015525          430.5160               2358.8553
-## 8           Erie  961276         1042.6977                921.9125
-## 9         Monroe  762463          657.2105               1160.1504
-## 10      Richmond  501151           58.1779               8614.1174
-## 11      Onondaga  478414          778.4094                614.6046
-## 12        Orange  407010          811.6988                501.4299
-## 13      Rockland  343657          173.5039               1980.6877
-## 14        Albany  316976          522.8113                606.2914
-## 15      Dutchess  295595          795.6356                371.5206
-## 16      Saratoga  238689          809.9962                294.6792
-## 17        Oneida  231575         1212.4134                191.0033
-## 18       Niagara  211906          522.3527                405.6761
-## 19        Broome  198299          705.7655                280.9701
-## 20        Ulster  181723         1124.2350                161.6415
-## 21    Rensselaer  161470          652.4322                247.4893
-## 22   Schenectady  158727          204.5787                775.8727
-## 23    Chautauqua  126207         1060.2265                119.0378
-## 24     Jefferson  116819         1268.6770                 92.0794
-## 25        Oswego  116609          951.6435                122.5343
-## 26       Ontario  113364          644.0640                176.0136
-## 27  St. Lawrence  107817         2680.3786                 40.2245
-## 28      Tompkins  106576          474.6493                224.5363
-## 29        Putnam   97260          230.3116                422.2975
-## 30       Steuben   92502         1390.5728                 66.5208
-## 31         Wayne   90785          603.8264                150.3495
-## 32       Chemung   83212          407.3527                204.2751
-## 33       Clinton   79387         1037.8526                 76.4916
-## 34      Sullivan   78840          968.1347                 81.4349
-## 35   Cattaraugus   76386         1308.3601                 58.3830
-## 36        Cayuga   75492          691.5917                109.1569
-## 37       Madison   66930          654.8646                102.2043
-## 38        Warren   65743          866.9581                 75.8318
-## 39      Columbia   61264          634.7275                 96.5202
-## 40    Livingston   61122          631.7622                 96.7484
-## 41    Washington   60920          831.1669                 73.2945
-## 42      Herkimer   59263         1411.5299                 41.9849
-## 43       Genesee   58050          492.9359                117.7638
-## 44        Otsego   57776         1001.7094                 57.6774
-## 45        Fulton   52882          495.4601                106.7331
-## 46    Montgomery   49394          403.1168                122.5302
-## 47         Tioga   47921          518.6096                 92.4028
-## 48        Greene   47673          647.1615                 73.6648
-## 49      Franklin   46747         1629.0705                 28.6955
-## 50      Chenango   46568          893.5573                 52.1153
-## 51      Cortland   46303          498.7729                 92.8338
-## 52      Allegany   45958         1029.3002                 44.6498
-## 53      Delaware   43574         1442.4601                 30.2081
-## 54       Wyoming   40207          592.7513                 67.8311
-## 55       Orleans   39835          391.2631                101.8113
-## 56         Essex   36983         1794.2666                 20.6118
-## 57        Seneca   33526          323.7095                103.5682
-## 58     Schoharie   29106          621.8189                 46.8078
-## 59         Lewis   26482         1274.6433                 20.7760
-## 60         Yates   24660          338.1428                 72.9278
-## 61      Schuyler   17810          328.3332                 54.2437
-## 62      Hamilton    5161         1717.3817                  3.0052
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#Merge data sets}
-
-\NormalTok{combined\_dat\_ny\_covid\_pop }\OtherTok{\textless{}{-}}\NormalTok{ ny\_pop\_dat }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{left\_join}\NormalTok{(ny\_covid\_dat, }\AttributeTok{by =} \StringTok{"County"}\NormalTok{)}
-
-\DocumentationTok{\#\# Add column for to classify counties into settlement types}
-
-\NormalTok{combined\_dat\_ny\_covid\_pop }\OtherTok{\textless{}{-}}\NormalTok{ combined\_dat\_ny\_covid\_pop }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{settlement\_type =} \FunctionTok{case\_when}\NormalTok{(pop2022}\SpecialCharTok{\textless{}=}\DecValTok{25000} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Rural\textquotesingle{}}\NormalTok{,}
-                                     \DecValTok{25000}\SpecialCharTok{\textless{}=}\NormalTok{pop2022 }\SpecialCharTok{\&}\NormalTok{ pop2022}\SpecialCharTok{\textless{}}\DecValTok{50000} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Micropolitan\textquotesingle{}}\NormalTok{,}
-\NormalTok{                                     pop2022}\SpecialCharTok{\textgreater{}=} \DecValTok{50000} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Urban\textquotesingle{}}\NormalTok{))}
-
-\FunctionTok{summary}\NormalTok{(combined\_dat\_ny\_covid\_pop) }\CommentTok{\# Check data for new columns}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##     County             pop2022        area_milessquared density_permilessquared
-##  Length:62          Min.   :   5161   Min.   :  22.66   Min.   :    3.01       
-##  Class :character   1st Qu.:  48289   1st Qu.: 441.55   1st Qu.:   73.02       
-##  Mode  :character   Median :  86998   Median : 653.65   Median :  113.46       
-##                     Mean   : 328482   Mean   : 760.09   Mean   : 3279.30       
-##                     3rd Qu.: 236910   3rd Qu.:1022.40   3rd Qu.:  418.14       
-##                     Max.   :2782348   Max.   :2680.38   Max.   :75738.89       
-##  sum_new_positives sum_cumulative_no_of_positive sum_total_number_of_tests
-##  Min.   :   1054   Min.   :4.330e+05             Min.   :   20261         
-##  1st Qu.:  12905   1st Qu.:5.329e+06             1st Qu.:  240066         
-##  Median :  23804   Median :9.156e+06             Median :  406342         
-##  Mean   : 138799   Mean   :5.937e+07             Mean   : 2723930         
-##  3rd Qu.:  64600   3rd Qu.:2.758e+07             3rd Qu.: 1462341         
-##  Max.   :2908643   Max.   :1.224e+09             Max.   :60433651         
-##  sum_cumulative_no_of_tests median_test_positive settlement_type   
-##  Min.   :1.036e+07          Length:62            Length:62         
-##  1st Qu.:1.241e+08          Class :character     Class :character  
-##  Median :2.024e+08          Mode  :character     Mode  :character  
-##  Mean   :1.304e+09                                                 
-##  3rd Qu.:7.539e+08                                                 
-##  Max.   :2.789e+10
-\end{verbatim}
-
 \newpage
 
 \hypertarget{dataset-information}{%
@@ -586,6 +266,42 @@ code 36
 
 ENV872, COVID-19, COVID, virus, virus spread, New York, New York State
 
+\begin{verbatim}
+##                          Variable
+## 1                          County
+## 2                         pop2022
+## 3               area_milessquared
+## 4            density_milessquared
+## 5               sum_new_positives
+## 6  sum_cumulative_no_of_positives
+## 7       sum_total_number_of_tests
+## 8      sum_cumulative_no_of_tests
+## 9            median_test_positive
+## 10                settlement_type
+##                                                                                                                                                                                                                                    Description
+## 1                                                                                                                                                                                                                            New York counties
+## 2                                                                                                                                                                                                         Population in each county as of 2022
+## 3                                                                                                                                                                                                          Area of each county in square miles
+## 4                                                                                                                                                                                            Population density of each county in square miles
+## 5                                                                                                                                                                  The new individuals who tested positive COVID-19 on the date of data import
+## 6                                                                                                                                                                              Running total of positive COVID-19 tests as date of data import
+## 7                                                                                The number of tests performed on the data of data extracted by individuals in each county. This total includes positives, negatives, and inconclusive results
+## 8                                                       Running total for the number of tests of individuals performed in each county as of the last update to the dataset. This total includes positives, negatives, and inconclusive results
+## 9  For the dates before 4/4/2022: The median percentage of all COVID tests reported to the New York State Department of Health (NYSDOH) that are positive and 4/4/2022 and forward: the median percentage of PCR COVID tests that are positive
+## 10                                                                                                                                                                                                               Classification of county type
+##       Coding         Units Minimum.Value Maximum.Value Missing
+## 1  character           N/A           N/A           N/A       0
+## 2    integer           N/A          5161       2782348       0
+## 3    numeric miles squared       22.6558      2680.379       0
+## 4    numeric miles squared        3.0052      75738.89       0
+## 5    integer           N/A          1054       2908643       0
+## 6    integer           N/A        432991    1224453000       0
+## 7    integer           N/A         20261      60433650       0
+## 8    integer           N/A      10356620   27893290000       0
+## 9  character           N/A           N/A           N/A       0
+## 10 character           N/A           N/A           N/A       0
+\end{verbatim}
+
 \newpage
 
 \hypertarget{exploratory-analysis-and-data-visualization}{%
@@ -615,6 +331,103 @@ the various settlement types using box plots.
 
 \hypertarget{tabular-exploration}{%
 \subsubsection{Tabular Exploration}\label{tabular-exploration}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(combined\_dat\_ny\_covid\_pop)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          County pop2022 area_milessquared density_permilessquared
+## 1         Kings 2782348           69.8126               39854.529
+## 2        Queens 2440412          108.7681               22436.837
+## 3 New York City 1715927           22.6558               75738.895
+## 4       Suffolk 1532434          911.7219                1680.813
+## 5         Bronx 1490164           42.0506               35437.365
+## 6        Nassau 1407022          284.8100                4940.212
+##   sum_new_positives sum_cumulative_no_of_positive sum_total_number_of_tests
+## 1            860573                     362966136                  18713833
+## 2            813384                     345088691                  14735060
+## 3           2908643                    1224453265                  60433651
+## 4            532466                     238589467                   8496337
+## 5            480247                     214795050                   8847438
+## 6            515433                     225331004                   8400598
+##   sum_cumulative_no_of_tests median_test_positive settlement_type
+## 1                 8370878686                2.45%           Urban
+## 2                 6902671989                2.49%           Urban
+## 3                27893288263                2.51%           Urban
+## 4                 4261845093                3.43%           Urban
+## 5                 4167554932                2.62%           Urban
+## 6                 4188172601                2.99%           Urban
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(combined\_dat\_ny\_covid\_pop) }\CommentTok{\#View Data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     County             pop2022        area_milessquared density_permilessquared
+##  Length:62          Min.   :   5161   Min.   :  22.66   Min.   :    3.01       
+##  Class :character   1st Qu.:  48289   1st Qu.: 441.55   1st Qu.:   73.02       
+##  Mode  :character   Median :  86998   Median : 653.65   Median :  113.46       
+##                     Mean   : 328482   Mean   : 760.09   Mean   : 3279.30       
+##                     3rd Qu.: 236910   3rd Qu.:1022.40   3rd Qu.:  418.14       
+##                     Max.   :2782348   Max.   :2680.38   Max.   :75738.89       
+##  sum_new_positives sum_cumulative_no_of_positive sum_total_number_of_tests
+##  Min.   :   1054   Min.   :4.330e+05             Min.   :   20261         
+##  1st Qu.:  12905   1st Qu.:5.329e+06             1st Qu.:  240066         
+##  Median :  23804   Median :9.156e+06             Median :  406342         
+##  Mean   : 138799   Mean   :5.937e+07             Mean   : 2723930         
+##  3rd Qu.:  64600   3rd Qu.:2.758e+07             3rd Qu.: 1462341         
+##  Max.   :2908643   Max.   :1.224e+09             Max.   :60433651         
+##  sum_cumulative_no_of_tests median_test_positive settlement_type   
+##  Min.   :1.036e+07          Length:62            Length:62         
+##  1st Qu.:1.241e+08          Class :character     Class :character  
+##  Median :2.024e+08          Mode  :character     Mode  :character  
+##  Mean   :1.304e+09                                                 
+##  3rd Qu.:7.539e+08                                                 
+##  Max.   :2.789e+10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(combined\_dat\_ny\_covid\_pop)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 62 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#View mean COVID cases and mean COVID test conducted by settlement types}
+
+
+\NormalTok{collapsed\_dat\_settlement\_types }\OtherTok{\textless{}{-}}\NormalTok{ combined\_dat\_ny\_covid\_pop }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(settlement\_type) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{Mean\_COVID\_cases =} \FunctionTok{mean}\NormalTok{(sum\_cumulative\_no\_of\_positive),}
+            \AttributeTok{Mean\_Tests\_Conducted =} \FunctionTok{mean}\NormalTok{(sum\_cumulative\_no\_of\_tests),}
+            \AttributeTok{Mean\_Absolute\_Population =} \FunctionTok{mean}\NormalTok{(pop2022),}
+            \AttributeTok{Mean\_Settlement\_Density =} \FunctionTok{mean}\NormalTok{ (density\_permilessquared))}
+
+\FunctionTok{print}\NormalTok{(collapsed\_dat\_settlement\_types) }\CommentTok{\#View table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 5
+##   settlement_type Mean_COVID_cases Mean_Tests_Conducted Mean_Absolute_~1 Mean_~2
+##   <chr>                      <dbl>                <dbl>            <dbl>   <dbl>
+## 1 Micropolitan            4166072.            98127075.           41448.    64.2
+## 2 Rural                   1274503.            34469996.           15877     43.4
+## 3 Urban                  80411031.          1763706740.          438622.  4495. 
+## # ... with abbreviated variable names 1: Mean_Absolute_Population,
+## #   2: Mean_Settlement_Density
+\end{verbatim}
 
 \hypertarget{graphical-exploration}{%
 \subsubsection{Graphical Exploration}\label{graphical-exploration}}
