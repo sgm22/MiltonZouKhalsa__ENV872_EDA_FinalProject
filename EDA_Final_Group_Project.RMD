@@ -4,6 +4,8 @@ output:
     keep_tex: yes
     fig_caption: yes
     number_sections: yes
+    toc: true
+    toc_depth: 2
 geometry: margin=2.54cm
 title: "Tracking COVID-19 Cases Across Different Settlement Types in New York State"
 subtitle: "https://github.com/sgm22/MiltonZouKhalsa__ENV872_EDA_FinalProject"
@@ -11,6 +13,8 @@ author: "SMiltonDZouGKhalsa"
 date: "2022-11-22"
 fontsize: 12pt
 mainfont: Times New Roman
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -193,6 +197,7 @@ dim(combined_dat_ny_covid_pop)
 
 
 #View mean COVID cases and mean COVID test conducted by settlement types
+
 
 collapsed_dat_settlement_types <- combined_dat_ny_covid_pop %>%
   group_by(settlement_type) %>%
