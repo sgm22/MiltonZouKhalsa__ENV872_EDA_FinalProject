@@ -227,7 +227,7 @@ print(collapsed_dat_settlement_types) #View table
 
 ### Graphical Exploration
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Positive COVID-19 Tests", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Positive COVID-19 Tests", fig.align='center', fig.height= 2.5 }
 
 # Visualizing Distribution of Variables
 
@@ -240,7 +240,7 @@ ggplot(data = combined_dat_ny_covid_pop, aes(sum_cumulative_no_of_positive))+
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Cumulative Number of Positive COVID-19 Tests", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Cumulative Number of Positive COVID-19 Tests", fig.align='center', fig.height= 2.5 }
 
 ## Log Transform
 
@@ -255,7 +255,7 @@ shapiro.test(log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive))
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of COVID-19 Tests Conducted", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of COVID-19 Tests Conducted", fig.align='center', fig.height= 2.5 }
 
 ####################### Number of COVID Tests Conducted #######################
 
@@ -266,7 +266,7 @@ ggplot(data = combined_dat_ny_covid_pop, aes(sum_cumulative_no_of_tests))+
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Cumulative Number of Positive COVID-19 Tests Conducted", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Cumulative Number of Positive COVID-19 Tests Conducted", fig.align='center', fig.height= 2.5 }
 
 ## Log Transform
 
@@ -280,7 +280,7 @@ shapiro.test(log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests))
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Population of Counties Across New York State", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Population of Counties Across New York State", fig.align='center', fig.height= 2.5 }
 
 ######################### County Population ##########################
 
@@ -291,7 +291,7 @@ ggplot(data = combined_dat_ny_covid_pop, aes(pop2022)) +
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Population of Counties Across New York State", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Population of Counties Across New York State", fig.align='center', fig.height= 2.5 }
 
 ## Log Transform
 
@@ -304,7 +304,7 @@ shapiro.test(log(combined_dat_ny_covid_pop$pop2022)) #Check normaliity
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Density of Counties Across New York State", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Density of Counties Across New York State", fig.align='center', fig.height= 2.5 }
 
 ################################## County Density ############################
 
@@ -315,7 +315,7 @@ ggplot(data = combined_dat_ny_covid_pop, aes(density_permilessquared)) +
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Density of Counties Across New York State", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Density of Counties Across New York State", fig.align='center', fig.height= 2.5 }
 
 ## Log Transform
 
@@ -329,7 +329,8 @@ shapiro.test(log(combined_dat_ny_covid_pop$density_permilessquared))
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Absolute Population Size of Counties by Settlement Type", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Absolute Population Size of Counties by Settlement Type", fig.align='center', fig.height= 2.5 }
+
 ########### Visualize Distribution of Predictor Variables by Settlement Type
 
 ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type,
@@ -342,7 +343,7 @@ ggplot(data = combined_dat_ny_covid_pop, aes(x= settlement_type,
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Population Density of Counties by Settlement Type", fig.align='left', fig.height= 2.5 }
+```{r, message=FALSE, warning=FALSE, fig.cap= "Log of Population Density of Counties by Settlement Type", fig.align='center', fig.height= 2.5 }
 
 ggplot(data = combined_dat_ny_covid_pop,
        aes(x= settlement_type, y= log(pop2022), fill = settlement_type))+
