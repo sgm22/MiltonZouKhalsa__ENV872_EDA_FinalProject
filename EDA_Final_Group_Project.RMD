@@ -561,6 +561,8 @@ summary (modelnb <- glm.nb(sum_cumulative_no_of_positive ~ factor(settlement_typ
 par (mfrow = c(2,2))
 plot(modelnb) #Check fit
 
+# Test of Fitness
+
 pchisq(q=modelnb$deviance, df=modelnb$df.residual, 
 lower.tail=FALSE)  #Check model fit
 
