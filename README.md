@@ -6,10 +6,8 @@ This repository serves as space to develop the final class project required by E
 
 This repository acts as a hub for the project group members to store data and remain coordinated as each member contributes to the goals set forth for the project.  It contains multiple data folders holding processed, raw, and spatial data.  It is also home to the project RMD file containing the bulk of the code written to process our data.  We are using COVID-19 data from 2020 to 2022 collected from the U.S. Census Bureau and the New York Department of Health. Additionally, we are using the state map file that was incorporated in class for ENV872.  The repository also contains the .Rproj project file, .gitignore file, .Rhistory file, license file, and this readme file.
 
-We plan on answering the central question: how well does the population of a county correlate with the occurrence of COVID-19 in New York State?  We will do this by examining three relationships.  First, we will assess the strength of correlation between the predictor variables: population density and the response variable: number of COVID-19 cases across New York State.  Second, we will determine explore the relationship between the variables: density, absolute population,
-and settlement types and the response variable: cumulative COVID-19 cases?.  Third, we will answer the question,"What is the correlation between absolute population and population density 
-and the number of COVID-19 tests does done? Does the stronger correlated 
-relationship vary among settlement types?"
+We plan on answering the central question: how well does the population of a county correlate with the occurrence of COVID-19 in New York State?  We will do this by examining three relationships.  First, we will assess the strength of correlation between the predictor variables: population density and the response variable: number of COVID-19 cases across New York State.  Second, we will determine explore the relationship between the predictor variable: settlement types and the response variable: cumulative COVID-19 cases? Third, we will answer the question,"What is the correlation between absolute population and population density 
+and the number of COVID-19 tests does done? Does the stronger correlated relationship vary among settlement types?"
 
 ## Investigators
 
