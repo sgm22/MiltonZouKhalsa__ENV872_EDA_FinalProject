@@ -417,11 +417,11 @@ each sub-question. Settlement types are classified based on our definitions of
 rural, micropolitan, and urban settlement types. Our hypotheses for each study question
 is indicated below.
 
-## Question 1:  What is the correlation between population density and absolute population and the number of COVID-19 cases(cumulative number of positive tests) across New York State?
+## Question 1:  What is the correlation between population density and absolute population and the number of COVID-19 cases (cumulative number of positive tests) across New York State?
 
 ### Absolute Population and COVID-19 Cases
 
-#### Hypotheses:
+#### Hypotheses
 
 Null Hypothesis: As the ranks of absolute population change, the ranks of the number of COVID-19 cases do not change. 
 Alternative Hypothesis:  As the ranks of absolute population change, the ranks of the number of COVID-19 cases change.
@@ -673,7 +673,15 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022), y = log(sum_cumulative_n
 
 # Summary and Conclusions
 
+>We set out to answer our central question of how population density and absolute population numbers correlate to COVID-19 cases in counties across the state of New York, and among three different settlement types (micropolitan, rural, and urban).
 
+>In the first question, we were examining the correlation between population density and absolute population and the number of COVID-19 cases across New York. In both cases of population density and absolute population, after performing a Spearman correlation for both variables we had a p-value of 2.2e-16, which is statistically significant. This means we reject our null hypothesis that as the ranks of absolute population and population density change, the ranks of the number of COVID-19 cases do not change and instead accept our alternative hypothesis that as the ranks of absolute population and population density change, the ranks of the number of COVID-19 cases does change. It is also demonstrated in the visualized plots that there is indeed a correlation between the variables as the R-squared value for the population density plot was 0.89 and 0.99 for the absolute population plot. Both show a strong correlation, but it is stronger with absolute population.
+
+>In the second question, we examined the relationship between our predictor variable (settlement types) and response variable (cumulative COVID-19 cases). After performing a negative binomial regression, we [insert conclusion here because I’m not sure how to read these results].
+
+>In our last question, we examined the correlation between absolute population and population density and the number of COVID-19 tests conducted in New York. Similar to the results of our first question, after performing a Spearman rank correlation test with both absolute population and population density we found that both had a p-value of 2.2e-16, indicating statistical significance. Therefore, we reject both null hypotheses that as ranks of absolute population and population density change, the the ranks of the number of COVID-19 tests conducted do not change. Instead, we accept our alternative hypotheses that as ranks of absolute population and population density change, the ranks of the number of COVID-19 tests conducted does change. This is also shown in our visualized plots, with the absolute population plot having an R-squared value of 0.97 and the population density plot having an R-squared value of 0.86. Both show a strong correlation, but it is stronger with absolute population.
+
+>After determining that the correlation between absolute population and number of COVID-19 tests conducted is stronger, we examined within those parameters to see if this correlation varies among settlement types. We performed the Spearman rank correlation test on all three settlement types. Urban settlements had a p-value of 2.2e-16 and an R-squared value of 0.96, micropolitan settlements had a p-value of 0.002 and an R-squared value of 0.77, and rural settlements had a p-value of 1 and an R-squared value of 0.5. We reject the null hypotheses to accept the alternative hypotheses for urban and micropolitan settlements, but accept the null hypothesis for rural settlements. The correlation is strongest with urban settlements. However, we do acknowledge that the rural settlements only had 3 data points, which is much fewer than the amount of data of micropolitan and urban settlements.
 
 \newpage
 
