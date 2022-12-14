@@ -786,8 +786,7 @@ Both show a strong correlation, but it is stronger with absolute population.
 and population density and the number of COVID-19 cases in New York, as well as
 the relationship between both absolute population and population density and 
 the number of COVID-19 tests conducted in New York. The absolute
-population correlation to the number of COVID-19 tests conducted was the stronger relationship. There is also a strong
-correlation between absolute population and urban settlements. It is important for us to know the correlation between COVID-19 cases and settlement type so we can be better informed about what factors influence the spread of infectious diseases for the future. 
+population correlation to the number of COVID-19 tests conducted was the stronger relationship. It is important for us to know the correlation between COVID-19 cases and settlement type so we can be better informed about what factors influence the spread of infectious diseases for the future. 
 
 \newpage
 
