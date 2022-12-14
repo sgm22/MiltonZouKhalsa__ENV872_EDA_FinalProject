@@ -225,6 +225,8 @@ collapsed_dat_settlement_types <- combined_dat_ny_covid_pop %>%
 
 collapsed_dat_settlement_types #View table
 
+kable(collapsed_dat_settlement_type, caption = "Summary of COVID and Population Data by Settlement Types") #Generate Table
+
 ```
 
 ### Graphical Exploration
