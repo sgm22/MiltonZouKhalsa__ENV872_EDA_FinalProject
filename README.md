@@ -50,7 +50,7 @@ Columns:
 "density_permilessquared": population density in square miles, class numeric
 "sum_new_positives": the new individuals who tested positive COVID-19 on the date of data import, class integer
 "sum_cumulative_no_of_positives": running total of positive COVID-19 tests as date of data import, class integer 
-"sum_total_number_of_tests": the number of tests performed on the data of data extracted by individuals in each county.his total includes positives, negatives, and inconclusive results, class integer
+"sum_total_number_of_tests": the number of tests performed on the data of data extracted by individuals in each county.This total includes positives, negatives, and inconclusive results, class integer
 "sum_cumulative_no_of_tests": running total for the number of tests of individuals performed in each county as of the last update to the dataset. This total includes positives, negatives, and inconclusive results, class integer
 "median_test_positive": For the dates before 4/4/2022: The median percentage of all COVID tests reported to the New York State Department of Health (NYSDOH) that are positive and 4/4/2022 and forward: the median percentage of PCR COVID tests that are positive, class character
 "settlement_type": classification of environment ("Urban", "Micropolitan", or "Rural"), class character
