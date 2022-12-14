@@ -99,7 +99,7 @@ number of positive COVID-19 cases, quantity of COVID-19 tests conducted and othe
 relevant information collected by the New York Department of Health from March 
 1, 2020 to November 22, 2022. 
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, include=FALSE}
 
 ################# Set working directory ################################
 
@@ -189,7 +189,7 @@ cb_2018_us_county_20m.shp state FIPS code 36
 
 ENV872, COVID-19, COVID, virus, virus spread, New York, New York State
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE}
 
 meta_data_tab <- read.csv("./Data/Meta_Data/meta_data_table.csv")
 
@@ -204,7 +204,7 @@ print(meta_data_tab)
 
 ### Tabular Exploration
 
-```{r, message=FALSE, warning=FALSE, include=FALSE}
+```{r, message=FALSE, warning=FALSE}
 
 head(combined_dat_ny_covid_pop)
 summary(combined_dat_ny_covid_pop) #View Data
