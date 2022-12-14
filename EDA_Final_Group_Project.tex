@@ -139,10 +139,6 @@ York State}
 \tableofcontents
 }
 \newpage
-\tableofcontents 
-\newpage
-\listoftables 
-\newpage
 \listoffigures 
 \newpage
 
@@ -279,7 +275,8 @@ the New York Department of Health from March 1, 2020 to November 22,
 \FunctionTok{theme\_set}\NormalTok{(my\_theme)}
 
 
-\CommentTok{\#Import NY State county level COVID data (March 1, 2020 to November 22, 2022) from NY Health.}
+\CommentTok{\#Import NY State county level COVID data (March 1, 2020 to November 22, 2022)}
+\CommentTok{\#from NY Health.}
 
 \NormalTok{ny\_covid\_dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"./Data/Raw\_Data/NY\_COVID\_County\_Level.csv"}\NormalTok{)}
 
@@ -442,7 +439,8 @@ the New York Department of Health from March 1, 2020 to November 22,
 \begin{Highlighting}[]
 \CommentTok{\#Import NY population data (2022)}
 
-\NormalTok{ny\_pop\_dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"./Data/Raw\_Data/NY\_County\_Level\_Population\_Data.csv"}\NormalTok{,}\AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{ny\_pop\_dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"./Data/Raw\_Data/NY\_County\_Level\_Population\_Data.csv"}
+\NormalTok{                       ,}\AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{)}
 
 \NormalTok{ny\_pop\_dat}
 \end{Highlighting}
@@ -778,7 +776,8 @@ the various settlement types using box plots.
 \begin{Highlighting}[]
 \DocumentationTok{\#\# Log Transform}
 
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive))) }\SpecialCharTok{+}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop,}
+       \FunctionTok{aes}\NormalTok{(}\FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive))) }\SpecialCharTok{+}
   \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+}
   \FunctionTok{xlab}\NormalTok{ (}\StringTok{"Log of Cumulative Number of Positive COVID{-}19 Tests"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of Log of Cumulative Number of Positive COVID{-}19 Tests"}\NormalTok{)}
@@ -794,7 +793,7 @@ the various settlement types using box plots.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{shapiro.test}\NormalTok{(}\FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_positive)) }\CommentTok{\#Check normality}
+\FunctionTok{shapiro.test}\NormalTok{(}\FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_positive)) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -805,6 +804,12 @@ the various settlement types using box plots.
 ## data:  log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive)
 ## W = 0.92854, p-value = 0.001407
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Check normality}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -844,7 +849,7 @@ the various settlement types using box plots.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{shapiro.test}\NormalTok{(}\FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests)) }\CommentTok{\#Check normality}
+\FunctionTok{shapiro.test}\NormalTok{(}\FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -855,6 +860,12 @@ the various settlement types using box plots.
 ## data:  log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests)
 ## W = 0.94091, p-value = 0.004985
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Check normality}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -944,7 +955,7 @@ the various settlement types using box plots.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{shapiro.test}\NormalTok{(}\FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{density\_permilessquared)) }\CommentTok{\#Check normality}
+\FunctionTok{shapiro.test}\NormalTok{(}\FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{density\_permilessquared))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -958,9 +969,17 @@ the various settlement types using box plots.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\#Check normality}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\# Visualize Distribution of Predictor Variables by Settlement Type}
 
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ settlement\_type, }\AttributeTok{y=} \FunctionTok{log}\NormalTok{(density\_permilessquared), }\AttributeTok{fill =}\NormalTok{ settlement\_type))}\SpecialCharTok{+}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ settlement\_type,}
+                                             \AttributeTok{y=} \FunctionTok{log}\NormalTok{(density\_permilessquared),}
+                                             \AttributeTok{fill =}\NormalTok{ settlement\_type))}\SpecialCharTok{+}
   \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
   \FunctionTok{ggtitle}\NormalTok{ (}\StringTok{"Log of Absolute Population Size of Counties by Settlement Type"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{xlab}\NormalTok{(}\StringTok{"Settlement Types"}\NormalTok{) }\SpecialCharTok{+}
@@ -977,7 +996,8 @@ the various settlement types using box plots.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ settlement\_type, }\AttributeTok{y=} \FunctionTok{log}\NormalTok{(pop2022), }\AttributeTok{fill =}\NormalTok{ settlement\_type))}\SpecialCharTok{+}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop,}
+       \FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ settlement\_type, }\AttributeTok{y=} \FunctionTok{log}\NormalTok{(pop2022), }\AttributeTok{fill =}\NormalTok{ settlement\_type))}\SpecialCharTok{+}
   \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
     \FunctionTok{ggtitle}\NormalTok{ (}\StringTok{"Log of Population Density of Counties by Settlement Type"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{xlab}\NormalTok{(}\StringTok{"Settlement Types"}\NormalTok{) }\SpecialCharTok{+}
@@ -999,9 +1019,12 @@ the various settlement types using box plots.
 \begin{Highlighting}[]
 \CommentTok{\# Map of New York County Population Levels}
  
-\CommentTok{\# The EPSG code of the New York counties dataset is 4269. This is a geographic coordinate reference system, so it uses angular coordinate units. This CRS (4269) is associated with the datum NAD83.}
+\CommentTok{\# The EPSG code of the New York counties dataset is 4269.}
+\CommentTok{\#This is a geographic coordinate reference system, so it uses}
+\CommentTok{\#angular coordinate units. This CRS (4269) is associated with the datum NAD83.}
 
-\NormalTok{uscounty }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(}\StringTok{\textquotesingle{}./Data/Spatial\_Files/cb\_2018\_us\_county\_20m.shp\textquotesingle{}}\NormalTok{, }\AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{uscounty }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(}\StringTok{\textquotesingle{}./Data/Spatial\_Files/cb\_2018\_us\_county\_20m.shp\textquotesingle{}}\NormalTok{,}
+                    \AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
  \FunctionTok{filter}\NormalTok{(STATEFP }\SpecialCharTok{==} \DecValTok{36}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1108,9 +1131,12 @@ the various settlement types using box plots.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Map the sum of the cumulative number of tests administered in each New York county in 2022.}
+\CommentTok{\# Map the sum of the cumulative number of tests administered in each}
+\CommentTok{\#New York county in 2022.}
+
 \FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_join, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_tests))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_join,}
+          \FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_tests))) }\SpecialCharTok{+}
   \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}\AttributeTok{colours =} \FunctionTok{terrain.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
   \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"COVID{-}19 in New York"}\NormalTok{,}
           \AttributeTok{subtitle =} \StringTok{"Cumulative Number of Tests Administered"}\NormalTok{) }\SpecialCharTok{+}
@@ -1127,9 +1153,12 @@ the various settlement types using box plots.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Map the sum of the cumulative number of positive test results in each New York county in 2022.}
+\CommentTok{\# Map the sum of the cumulative number of positive test results in each}
+\CommentTok{\#New York county in 2022.}
+
 \FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_join, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ combined\_dat\_join,}
+          \FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive))) }\SpecialCharTok{+}
   \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}\AttributeTok{colours =} \FunctionTok{terrain.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
   \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"COVID{-}19 in New York"}\NormalTok{,}
           \AttributeTok{subtitle =} \StringTok{"Cumulative Number of Positive Test Results in 2022"}\NormalTok{) }\SpecialCharTok{+}
@@ -1160,11 +1189,13 @@ the various settlement types using box plots.
 \begin{Highlighting}[]
 \CommentTok{\#Full processed data set}
 
-\FunctionTok{write.csv2}\NormalTok{(combined\_dat\_ny\_covid\_pop,}\StringTok{"./Data/Processed\_Data/Combined\_NY\_COVID\_Pop.csv"}\NormalTok{)}
+\FunctionTok{write.csv2}\NormalTok{(combined\_dat\_ny\_covid\_pop,}
+           \StringTok{"./Data/Processed\_Data/Combined\_NY\_COVID\_Pop.csv"}\NormalTok{)}
 
 \CommentTok{\#Collapsed data set}
 
-\FunctionTok{write.csv2}\NormalTok{(collapsed\_dat\_settlement\_types,}\StringTok{"./Data/Processed\_Data/collapsed\_dat\_settlement\_types.csv"}\NormalTok{)}
+\FunctionTok{write.csv2}\NormalTok{(collapsed\_dat\_settlement\_types,}
+           \StringTok{"./Data/Processed\_Data/collapsed\_dat\_settlement\_types.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1228,8 +1259,10 @@ ranks of the number of COVID-19 cases change.
 \CommentTok{\# Spearman rank correlation test as distributions are skewed}
 
 
-\NormalTok{correlation\_results\_absol\_pop }\OtherTok{\textless{}{-}} \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{pop2022),}
-                                          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_positive), }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
+\NormalTok{correlation\_results\_absol\_pop }\OtherTok{\textless{}{-}}
+  \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{pop2022),}
+                                          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_positive),}
+           \AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
 \NormalTok{correlation\_results\_absol\_pop}
 \end{Highlighting}
 \end{Shaded}
@@ -1250,7 +1283,8 @@ ranks of the number of COVID-19 cases change.
 \begin{Highlighting}[]
 \CommentTok{\# Visualize plot (Log{-}transformed for better visualization)}
 
-\FunctionTok{ggplot}\NormalTok{(combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(pop2022), }\AttributeTok{y =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive)))}\SpecialCharTok{+}
+\FunctionTok{ggplot}\NormalTok{(combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(pop2022),}
+                                      \AttributeTok{y =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive)))}\SpecialCharTok{+}
   \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
   \FunctionTok{ylab}\NormalTok{ (}\StringTok{"Log of COVID{-}19 Cases"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{xlab}\NormalTok{ (}\StringTok{"Log of Absolute Population Across Counties"}\NormalTok{) }\SpecialCharTok{+}
@@ -1295,7 +1329,8 @@ ranks of the number of COVID-19 cases change.
 
 
 \NormalTok{correlation\_results\_pop\_density }\OtherTok{\textless{}{-}} \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{density\_permilessquared),}
-                                          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_positive), }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
+                                          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_positive),}
+                                          \AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
 \NormalTok{correlation\_results\_pop\_density}
 \end{Highlighting}
 \end{Shaded}
@@ -1383,7 +1418,9 @@ Alternative Hypothesis: There is a trend between the response
 \begin{Highlighting}[]
 \DocumentationTok{\#\# Negative Binomial Regression}
 
-\FunctionTok{summary}\NormalTok{ (modelnb }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(sum\_cumulative\_no\_of\_positive }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(settlement\_type), }\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop))}
+\FunctionTok{summary}\NormalTok{ (modelnb }\OtherTok{\textless{}{-}}
+           \FunctionTok{glm.nb}\NormalTok{(sum\_cumulative\_no\_of\_positive }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(settlement\_type),}
+                  \AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1445,9 +1482,12 @@ Alternative Hypothesis: There is a trend between the response
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DocumentationTok{\#\# Check our assumption that a negative binomial is a better model than the poisson model}
+\DocumentationTok{\#\# Check our assumption that a negative binomial is a better model than the}
+\CommentTok{\#poisson model}
 
-\FunctionTok{summary}\NormalTok{ (modelpoisson }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(sum\_cumulative\_no\_of\_positive }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(settlement\_type), }\AttributeTok{family =} \StringTok{"poisson"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop))}
+\FunctionTok{summary}\NormalTok{ (modelpoisson }\OtherTok{\textless{}{-}}
+           \FunctionTok{glm}\NormalTok{(sum\_cumulative\_no\_of\_positive }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(settlement\_type),}
+               \AttributeTok{family =} \StringTok{"poisson"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ combined\_dat\_ny\_covid\_pop))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1480,7 +1520,8 @@ Alternative Hypothesis: There is a trend between the response
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DocumentationTok{\#\# Summary inference: Residual deviance is much larger than degrees of freedom (DF). Negative binomial plot better.}
+\DocumentationTok{\#\# Summary inference: Residual deviance is much larger than degrees of}
+\CommentTok{\#freedom (DF). Negative binomial plot better.}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1525,7 +1566,8 @@ ranks of the number of COVID-19 tests conducted change.
 \CommentTok{\# Spearman rank correlation test as distributions are skewed}
 
 
-\NormalTok{correlation\_results\_absol\_pop }\OtherTok{\textless{}{-}} \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{pop2022),}
+\NormalTok{correlation\_results\_absol\_pop }\OtherTok{\textless{}{-}}
+  \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{pop2022),}
                                           \AttributeTok{y =} \FunctionTok{log}\NormalTok{(combined\_dat\_ny\_covid\_pop}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests), }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
 \NormalTok{correlation\_results\_absol\_pop}
 \end{Highlighting}
@@ -1547,7 +1589,8 @@ ranks of the number of COVID-19 tests conducted change.
 \begin{Highlighting}[]
 \CommentTok{\# Visualize plot (Log{-}transformed for better visualization)}
 
-\FunctionTok{ggplot}\NormalTok{(combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(pop2022), }\AttributeTok{y =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_tests)))}\SpecialCharTok{+}
+\FunctionTok{ggplot}\NormalTok{(combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(pop2022),}
+                                      \AttributeTok{y =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_tests)))}\SpecialCharTok{+}
   \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
   \FunctionTok{ylab}\NormalTok{ (}\StringTok{"Log of COVID{-}19 Tests Conducted"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{xlab}\NormalTok{ (}\StringTok{"Log of Absolute Population Across Counties"}\NormalTok{) }\SpecialCharTok{+}
@@ -1648,8 +1691,9 @@ Types}\label{absolute-population-and-settlement-types}}
   \FunctionTok{filter}\NormalTok{(settlement\_type}\SpecialCharTok{==}\StringTok{"Urban"}\NormalTok{)}
 
 
-\NormalTok{correlation\_results\_absolute\_pop\_urban }\OtherTok{\textless{}{-}} \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(Urban\_dat}\SpecialCharTok{$}\NormalTok{pop2022),}
-                                          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(Urban\_dat}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests), }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
+\NormalTok{correlation\_results\_absolute\_pop\_urban }\OtherTok{\textless{}{-}}
+  \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(Urban\_dat}\SpecialCharTok{$}\NormalTok{pop2022),}
+          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(Urban\_dat}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests), }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
 
 \NormalTok{correlation\_results\_absolute\_pop\_urban}
 \end{Highlighting}
@@ -1675,8 +1719,10 @@ Types}\label{absolute-population-and-settlement-types}}
   \FunctionTok{filter}\NormalTok{(settlement\_type}\SpecialCharTok{==}\StringTok{"Micropolitan"}\NormalTok{)}
 
 
-\NormalTok{correlation\_results\_absolute\_pop\_microp }\OtherTok{\textless{}{-}} \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(Micropolitan\_dat}\SpecialCharTok{$}\NormalTok{pop2022),}
-                                          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(Micropolitan\_dat}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests), }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
+\NormalTok{correlation\_results\_absolute\_pop\_microp }\OtherTok{\textless{}{-}}
+  \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(Micropolitan\_dat}\SpecialCharTok{$}\NormalTok{pop2022),}
+          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(Micropolitan\_dat}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests),}
+          \AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
 
 \NormalTok{correlation\_results\_absolute\_pop\_microp}
 \end{Highlighting}
@@ -1702,8 +1748,9 @@ Types}\label{absolute-population-and-settlement-types}}
   \FunctionTok{filter}\NormalTok{(settlement\_type}\SpecialCharTok{==}\StringTok{"Rural"}\NormalTok{)}
 
 
-\NormalTok{correlation\_results\_absolute\_pop\_rural }\OtherTok{\textless{}{-}} \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(Rural\_dat}\SpecialCharTok{$}\NormalTok{pop2022),}
-                                          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(Rural\_dat}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests), }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
+\NormalTok{correlation\_results\_absolute\_pop\_rural }\OtherTok{\textless{}{-}} 
+  \FunctionTok{cor.test}\NormalTok{(}\AttributeTok{x=} \FunctionTok{log}\NormalTok{(Rural\_dat}\SpecialCharTok{$}\NormalTok{pop2022),}
+          \AttributeTok{y =} \FunctionTok{log}\NormalTok{(Rural\_dat}\SpecialCharTok{$}\NormalTok{sum\_cumulative\_no\_of\_tests), }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
 
 \NormalTok{correlation\_results\_absolute\_pop\_rural}
 \end{Highlighting}
@@ -1726,7 +1773,8 @@ Types}\label{absolute-population-and-settlement-types}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(pop2022), }\AttributeTok{y =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive)))}\SpecialCharTok{+}
+\FunctionTok{ggplot}\NormalTok{(combined\_dat\_ny\_covid\_pop, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(pop2022),}
+                                      \AttributeTok{y =} \FunctionTok{log}\NormalTok{(sum\_cumulative\_no\_of\_positive)))}\SpecialCharTok{+}
   \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} 
   \FunctionTok{ylab}\NormalTok{ (}\StringTok{"Log of Cumulative Number of COVID{-}19 Cases"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{xlab}\NormalTok{ (}\StringTok{"Absolute Population (2022)"}\NormalTok{)}\SpecialCharTok{+}

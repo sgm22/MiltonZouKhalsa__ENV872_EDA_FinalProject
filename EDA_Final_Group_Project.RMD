@@ -385,7 +385,7 @@ dim(combined_dat_join)
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Population of New York Counties", fig.align='left', fig.height= 4, fig.width= 5}
+```{r, message=FALSE, warning=FALSE, fig.cap= "Population of New York Counties", fig.align='center', fig.height= 4, fig.width= 5}
 
 # Map the population of each New York county in 2022.
 ggplot() +
@@ -397,7 +397,7 @@ ggplot() +
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Settlement Types of New York Counties", fig.align='left', fig.height= 4, fig.width= 5}
+```{r, message=FALSE, warning=FALSE, fig.cap= "Settlement Types of New York Counties", fig.align='center', fig.height= 4, fig.width= 5}
  
 # Map the settlement types of each New York county in 2022.
 ggplot() +
@@ -408,7 +408,7 @@ ggplot() +
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Tests Administered in Each New York County", fig.align='left', fig.height= 4, fig.width= 5}
+```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Tests Administered in Each New York County", fig.align='center', fig.height= 4, fig.width= 5}
  
 # Map the sum of the cumulative number of tests administered in each
 #New York county in 2022.
@@ -423,7 +423,7 @@ ggplot() +
 
 ```
 
-```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Positive Test Results in Each New York County", fig.align='left', fig.height= 4, fig.width= 5}
+```{r, message=FALSE, warning=FALSE, fig.cap= "Cumulative Number of Positive Test Results in Each New York County", fig.align='center', fig.height= 4, fig.width= 5}
  
 # Map the sum of the cumulative number of positive test results in each
 #New York county in 2022.
@@ -502,8 +502,8 @@ Alternative Hypothesis: As the ranks of absolute population change, the ranks of
 
 
 correlation_results_absol_pop <-
-  cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive),
+  cor.test(x=log(combined_dat_ny_covid_pop$pop2022),
+           y=log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive),
            method = "spearman")
 correlation_results_absol_pop
 
@@ -542,8 +542,8 @@ Alternative Hypothesis: As the ranks of population density change, the ranks of 
 # Spearman rank correlation test as distributions are skewed
 
 
-correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$density_permilessquared),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive),
+correlation_results_pop_density <- cor.test(x=log(combined_dat_ny_covid_pop$density_permilessquared),
+         y=log(combined_dat_ny_covid_pop$sum_cumulative_no_of_positive),
                                           method = "spearman")
 correlation_results_pop_density
 
@@ -553,7 +553,8 @@ correlation_results_pop_density
 
 # Visualize plot (Log-transformed for better visualization)
 
-ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared), y = log(sum_cumulative_no_of_positive)))+
+ggplot(combined_dat_ny_covid_pop, aes(x = log(density_permilessquared),
+                                      y = log(sum_cumulative_no_of_positive)))+
   geom_point() +
   xlab (" Log of Population Density (per miles squared)") +
   ylab ("Log of COVID-19 Cases") +
@@ -628,6 +629,7 @@ no association and r = -1 or +1.
 
 #### Absolute Population and COVID-19 Cases
 
+
 *Hypotheses:*
 
 Null Hypothesis: As the ranks of absolute population change, the ranks of the number of COVID-19 tests conducted do not change. 
@@ -644,8 +646,10 @@ Alternative Hypothesis:  As the ranks of absolute population change, the ranks o
 
 
 correlation_results_absol_pop <-
-  cor.test(x= log(combined_dat_ny_covid_pop$pop2022),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
+  cor.test(
+    x = log(combined_dat_ny_covid_pop$pop2022),
+    y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests),
+    method = "spearman")
 correlation_results_absol_pop
 
 ```
@@ -654,8 +658,9 @@ correlation_results_absol_pop
 
 # Visualize plot (Log-transformed for better visualization)
 
-ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022),
-                                      y = log(sum_cumulative_no_of_tests)))+
+ggplot(combined_dat_ny_covid_pop,
+       aes(x = log(pop2022),
+           y = log(sum_cumulative_no_of_tests)))+
   geom_point() +
   ylab ("Log of COVID-19 Tests Conducted") +
   xlab ("Log of Absolute Population Across Counties") +
@@ -667,6 +672,7 @@ ggplot(combined_dat_ny_covid_pop, aes(x = log(pop2022),
 ```
 
 #### Population Density and COVID-19 Cases
+
 
 *Hypotheses:*
 
@@ -683,8 +689,10 @@ Alternative Hypothesis: As the ranks of population density change, the ranks of 
 # Spearman rank correlation test as distributions are skewed
 
 
-correlation_results_pop_density <- cor.test(x= log(combined_dat_ny_covid_pop$density_permilessquared),
-                                          y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests), method = "spearman")
+correlation_results_pop_density <- cor.test(
+  x= log(combined_dat_ny_covid_pop$density_permilessquared),
+  y = log(combined_dat_ny_covid_pop$sum_cumulative_no_of_tests),
+  method = "spearman")
 correlation_results_pop_density
 
 ```
@@ -721,7 +729,7 @@ Urban_dat <- combined_dat_ny_covid_pop %>%
 
 correlation_results_absolute_pop_urban <-
   cor.test(x= log(Urban_dat$pop2022),
-          y = log(Urban_dat$sum_cumulative_no_of_tests), method = "spearman")
+           y = log(Urban_dat$sum_cumulative_no_of_tests), method = "spearman")
 
 correlation_results_absolute_pop_urban
 
@@ -733,7 +741,7 @@ Micropolitan_dat <- combined_dat_ny_covid_pop %>%
 
 correlation_results_absolute_pop_microp <-
   cor.test(x= log(Micropolitan_dat$pop2022),
-          y = log(Micropolitan_dat$sum_cumulative_no_of_tests),
+           y = log(Micropolitan_dat$sum_cumulative_no_of_tests),
           method = "spearman")
 
 correlation_results_absolute_pop_microp
@@ -746,7 +754,7 @@ Rural_dat <- combined_dat_ny_covid_pop %>%
 
 correlation_results_absolute_pop_rural <- 
   cor.test(x= log(Rural_dat$pop2022),
-          y = log(Rural_dat$sum_cumulative_no_of_tests), method = "spearman")
+           y = log(Rural_dat$sum_cumulative_no_of_tests), method = "spearman")
 
 correlation_results_absolute_pop_rural
 
